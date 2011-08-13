@@ -25,7 +25,6 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.HttpURLConnection;
-import java.net.URI;
 import java.net.URLEncoder;
 
 import org.apache.http.client.HttpClient;
@@ -38,7 +37,9 @@ import android.util.Log;
 
 public class ServerTranslation {
 	
+	private static final String SERVER_URL = "http://www.softcatala.org/apertium/json/translate";
     private static final String ENCODING = "UTF-8";
+    private static final String KEY = "NWI0MjQwMzQ2MzYyMzEzNjMyNjQ";
 	String _language;
 	
 	public String getName() {
@@ -63,6 +64,19 @@ public class ServerTranslation {
 
 		return sb.toString();
 	}
+	
+	private String BuildURL (final String langCode, final String text)
+	{
+		StringBuilder sb = new StringBuilder ();
+    	sb.append (SERVER_URL);
+    	sb.append ("?");
+    	sb.append (AddQueryParameter ("markUnknown", "yes"));
+    	sb.append (AddQueryParameter ("key", KEY));
+    	sb.append (AddQueryParameter ("langpair", langCode));
+    	sb.append (AddQueryParameter ("q", text));
+    	
+    	return sb.toString();    	   
+	}
 
 	protected String sendJson(final String langCode, final String text) 
 	{                  
@@ -71,39 +85,24 @@ public class ServerTranslation {
                                 
                 try
                 {
-                	StringBuilder sb = new StringBuilder ();                	
-                	sb.append ("http://www.softcatala.org/apertium/json/translate?markUnknown=yes&key=NWI0MjQwMzQ2MzYyMzEzNjMyNjQ");
-                	sb.append (AddQueryParameter ("langpair", langCode));
-                	sb.append (AddQueryParameter ("q", text));
-                	
-                	URI uri = new URI (sb.toString());
-                	String s = uri.toString();
-                	
-                	Log.i ("url", s);
-                    HttpURLConnection uc = (HttpURLConnection) new URL(s).openConnection();
+                	String url = BuildURL (langCode, text);                	
+                    HttpURLConnection uc = (HttpURLConnection) new URL(url).openConnection();
                     uc.setDoInput(true);
                     uc.setDoOutput(true);
                     
-                    //Log.d(TranslateService.TAG, "getInputStream()");
                     InputStream is= uc.getInputStream();
                     String result = toString(is);
                     JSONObject json = new JSONObject(result);
-                    //return result;
                     return ((JSONObject)json.get("responseData")).getString("translatedText");
                 }            
                 catch(Exception e)
                 {
                     e.printStackTrace();
                     return new String (e.toString ());
-                } 
-                
-                finally 
-                {
-                		
-                }           
-                
-	}
-	 private static String toString(InputStream inputStream) throws Exception {
+                }                
+	}	
+	
+	private static String toString(InputStream inputStream) throws Exception {
 	        StringBuilder outputBuilder = new StringBuilder();
 	        try {
 	            String string;
@@ -119,6 +118,4 @@ public class ServerTranslation {
 	        }
 	        return outputBuilder.toString();
 	    }
-	}            
-
-
+	}
