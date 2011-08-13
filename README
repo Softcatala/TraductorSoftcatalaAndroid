@@ -1,6 +1,13 @@
+--- Introduction
+
 This is a Android client for the Softcatalà on-line web translation service (http://www.softcatala.org/traductor)
 
-Project: http://www.softcatala.org/wiki/Projectes/Traductor 
+Project: http://www.softcatala.org/wiki/Projectes/Traductor
 
+-- Development
+
+This project has been created with Eclipse IDE. Just create a new workspace and add an already existing project. 
+
+-- Contact Information
 Jordi Mas
 jmas@softcatala.org
