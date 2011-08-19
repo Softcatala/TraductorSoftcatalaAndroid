@@ -18,4 +18,5 @@
         <item>Portuguès &gt;&gt; Català</item>
         <item>Català &gt;&gt; Portuguès</item>
     </string-array>
+    <string name="EditTextHint">Teclegeu el text a traduir i premeu Tradueix</string>
 </resources>

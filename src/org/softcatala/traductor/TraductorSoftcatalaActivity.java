@@ -24,12 +24,11 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 public class TraductorSoftcatalaActivity extends Activity {
 	
-	TextView textView;
-	EditText translateEdit;
+	EditText translatedTextEdit;
+	EditText textToTranslateEdit;
 	Spinner languagesSpinner;
 	
 	String _langCode;
@@ -39,8 +38,8 @@ public class TraductorSoftcatalaActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        textView = (TextView)findViewById(R.id.translationView);
-        translateEdit = (EditText)findViewById(R.id.textToTranslateEdit);    	
+        translatedTextEdit = (EditText)findViewById(R.id.translatedTextEdit);
+        textToTranslateEdit = (EditText)findViewById(R.id.textToTranslateEdit);    	
         InitSpinner ();     
         
     }
@@ -64,9 +63,9 @@ public class TraductorSoftcatalaActivity extends Activity {
     	String translation;
     	
     	ServerTranslation serverTranslation = new ServerTranslation ();
-    	translation = serverTranslation.sendJson (_langCode, translateEdit.getText().toString());
+    	translation = serverTranslation.sendJson (_langCode, textToTranslateEdit.getText().toString());
     	
-    	textView.setText(translation);
+    	translatedTextEdit.setText(translation);
     }
        
 }
