@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Softcatala Translator</string>
+    <string name="Translate">Translate</string>
+    <string name="TextToTranslate">Text to translate</string>
+    <string name="TranslatedText">Translated text</string>
+    <string-array name="Languages">
+        <item>Spanish &gt;&gt; Catalan</item>
+        <item>Spanish &gt;&gt; Valencian</item>
+        <item>Catalan &gt;&gt; Spanish</item>
+        <item>English &gt;&gt; Catalan</item>
+        <item>Catalan &gt;&gt; English</item>
+        <item>French &gt;&gt; Catalan</item>
+        <item>Catalan &gt;&gt; French</item>
+        <item>Portuguese &gt;&gt; Catalan</item>
+        <item>Catalan &gt;&gt; Portuguese</item>
+    </string-array>
+    <string name="EditTextHint">Type the text to translate and press Translate</string>
+</resources>
