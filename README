@@ -6,7 +6,9 @@ Project: http://www.softcatala.org/wiki/Projectes/Traductor
 
 -- Development
 
-This project has been created with Eclipse IDE. Just create a new workspace and add an already existing project. 
+This project has been created with Eclipse IDE and Android Development Tools (ADT). 
+
+To get started, just create a new workspace and add this project as an already existing project. 
 
 -- Contact Information
 Jordi Mas
