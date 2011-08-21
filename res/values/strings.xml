@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Traductor Softcatalà</string>
     <string name="Translate">Tradueix</string>
-    <string name="TextToTranslate">Text a traduir</string>
+    <string name="TextToTranslate">Text que s'ha de traduir</string>
     <string name="TranslatedText">Text traduït</string>
     <string-array name="Languages">
         <item>Castellà &gt;&gt; Català</item>
