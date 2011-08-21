@@ -16,4 +16,5 @@
         <item>Catalan &gt;&gt; Portuguese</item>
     </string-array>
     <string name="EditTextHint">Type the text to translate and press Translate</string>
+    <string name="ServerError">An error has ocurr when connecting to the server: %1$s</string>
 </resources>

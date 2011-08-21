@@ -32,6 +32,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.HttpConnectionParams;
 import org.json.JSONObject;
 
+import android.content.Context;
 import android.util.Log;
 
 
@@ -41,6 +42,11 @@ public class ServerTranslation {
     private static final String ENCODING = "UTF-8";
     private static final String KEY = "NWI0MjQwMzQ2MzYyMzEzNjMyNjQ";
 	String _language;
+	Context _context;
+	
+	public ServerTranslation (Context context) {
+		_context = context;
+	}	
 	
 	public String getName() {
 		return _language;
@@ -97,8 +103,8 @@ public class ServerTranslation {
                 }            
                 catch(Exception e)
                 {
-                    e.printStackTrace();
-                    return new String (e.toString ());
+                	String msg = _context.getString(R.string.ServerError);
+                	return String.format (msg, e.toString());
                 }                
 	}	
 	

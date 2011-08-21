@@ -62,7 +62,7 @@ public class TraductorSoftcatalaActivity extends Activity {
     public void OnTranslate (View v)  {    	
     	String translation;
     	
-    	ServerTranslation serverTranslation = new ServerTranslation ();
+    	ServerTranslation serverTranslation = new ServerTranslation (this);
     	translation = serverTranslation.sendJson (_langCode, textToTranslateEdit.getText().toString());
     	
     	translatedTextEdit.setText(translation);
