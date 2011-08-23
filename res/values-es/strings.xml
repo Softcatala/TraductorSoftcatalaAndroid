@@ -5,15 +5,15 @@
     <string name="TextToTranslate">Texto a traducir</string>
     <string name="TranslatedText">Texto traducido</string>
     <string-array name="Languages">
-        <item>Español &gt;&gt; Catalán</item>
-        <item>Español &gt;&gt; Valenciano</item>
-        <item>Catalán &gt;&gt; Español</item>
-        <item>Inglés &gt;&gt; Catalán</item>
-        <item>Catalán &gt;&gt; Inglés</item>
-        <item>Francés &gt;&gt; Catalán</item>
-        <item>Catalán &gt;&gt; Francés</item>
-        <item>Portugués &gt;&gt; Catalán</item>
-        <item>Catalán &gt;&gt; Portugués</item>
+        <item>Español ⇒ Catalán</item>
+        <item>Español ⇒ Valenciano</item>
+        <item>Catalán ⇒ Español</item>
+        <item>Inglés ⇒ Catalán</item>
+        <item>Catalán ⇒ Inglés</item>
+        <item>Francés ⇒ Catalán</item>
+        <item>Catalán ⇒ Francés</item>
+        <item>Portugués ⇒ Catalán</item>
+        <item>Catalán ⇒ Portugués</item>
     </string-array>
     <string name="EditTextHint">Teclea el texto a traducir y pulsa Traducir</string>
     <string name="ServerError">Error al conectar con el servidor: %1$s</string>
