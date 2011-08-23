@@ -4,17 +4,17 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:weightSum="1">
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:id="@+id/linearLayout1">
+    <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/linearLayout1">
     </LinearLayout>
     <TextView android:layout_height="wrap_content" android:layout_width="wrap_content" android:text="@string/TextToTranslate" android:id="@+id/textView2" android:textStyle="bold"></TextView>
-    <EditText android:layout_width="match_parent" android:layout_height="wrap_content" android:id="@+id/textToTranslateEdit" android:hint="@+string/EditTextHint">
+    <EditText android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/textToTranslateEdit" android:hint="@+string/EditTextHint">
         <requestFocus></requestFocus>
     </EditText>
-    <LinearLayout android:id="@+id/linearLayout2" android:layout_height="wrap_content" android:layout_width="match_parent">
+    <LinearLayout android:id="@+id/linearLayout2" android:layout_height="wrap_content" android:layout_width="fill_parent">
         <Spinner android:layout_weight="1" android:id="@+id/languagesSpinner" android:layout_height="wrap_content" android:layout_width="211dp"></Spinner>
         <Button android:layout_weight="1" android:onClick="OnTranslate" android:id="@+id/button1" android:layout_height="wrap_content" android:text="@string/Translate" android:layout_width="wrap_content"></Button>
     </LinearLayout>
     <TextView android:layout_height="wrap_content" android:layout_width="wrap_content" android:text="@string/TranslatedText" android:id="@+id/textView3" android:textStyle="bold"></TextView>
-    <EditText android:layout_width="match_parent" android:layout_height="wrap_content" android:id="@+id/translatedTextEdit" android:editable="false">
+    <EditText android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/translatedTextEdit" android:editable="false">
     </EditText>
 </LinearLayout>
