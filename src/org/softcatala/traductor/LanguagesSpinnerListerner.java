@@ -22,6 +22,7 @@ package org.softcatala.traductor;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.CheckBox;
 
 public class LanguagesSpinnerListerner implements  OnItemSelectedListener {
 	
@@ -33,8 +34,16 @@ public class LanguagesSpinnerListerner implements  OnItemSelectedListener {
 
 	public void onItemSelected(AdapterView<?> parent,
 		        View view, int pos, long id) {
+		String lang = GetLangCodeFromPosition (pos);
 		
-		_activity.setLangCode( GetLangCodeFromPosition (pos));		      
+                CheckBox checkbox = (CheckBox) _activity.findViewById(R.id.valencia);
+                if(lang.equalsIgnoreCase("es|ca")) {
+                    checkbox.setVisibility(View.VISIBLE);
+                } else {
+                    checkbox.setVisibility(View.GONE);
+                }
+                
+                _activity.setLangCode(lang);		      
 	 }
 
 	 public void onNothingSelected(AdapterView<?> parent) {
@@ -46,21 +55,19 @@ public class LanguagesSpinnerListerner implements  OnItemSelectedListener {
 		 switch (pos) {
 		 case 0:
 			 return new String ("es|ca");
-		 case 1:
-			 return new String ("es|ca_valencia");
-		 case 2:	 
+		 case 1:	 
 			 return new String ("ca|es");
-		 case 3:
+		 case 2:
 			 return new String ("en|ca");
-		 case 4:
+		 case 3:
 			 return new String ("ca|en");
-		 case 5:
+		 case 4:
 			 return new String ("fr|ca");
-		 case 6:
+		 case 5:
 			 return new String ("ca|fr");
-		 case 7:
+		 case 6:
 			 return new String ("pt|ca");
-		 case 8:
+		 case 7:
 			 return new String ("ca|pt");		 
 		 default:
 			 return new String ("es|ca");

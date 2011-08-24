@@ -6,7 +6,6 @@
     <string name="TranslatedText">Texto traducido</string>
     <string-array name="Languages">
         <item>Español ⇒ Catalán</item>
-        <item>Español ⇒ Valenciano</item>
         <item>Catalán ⇒ Español</item>
         <item>Inglés ⇒ Catalán</item>
         <item>Catalán ⇒ Inglés</item>
@@ -15,6 +14,7 @@
         <item>Portugués ⇒ Catalán</item>
         <item>Catalán ⇒ Portugués</item>
     </string-array>
+    <string name="ValencianVariant">Utilizar la variante valenciana</string>
     <string name="EditTextHint">Teclea el texto a traducir y pulsa Traducir</string>
     <string name="ServerError">Error al conectar con el servidor: %1$s</string>
 </resources>

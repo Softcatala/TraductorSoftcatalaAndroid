@@ -22,6 +22,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 
@@ -59,11 +60,23 @@ public class TraductorSoftcatalaActivity extends Activity {
         languagesSpinner.setOnItemSelectedListener(new LanguagesSpinnerListerner(this));
     }
     
+    private String getLangCode() {
+        
+        CheckBox checkbox = (CheckBox) findViewById(R.id.valencia);
+        if(_langCode.equalsIgnoreCase("es|ca") && checkbox.isChecked()) {
+            return "es|ca_valencia";
+        }
+        
+        return _langCode;
+    }
+    
     public void OnTranslate (View v)  {    	
     	String translation;
     	
     	ServerTranslation serverTranslation = new ServerTranslation (this);
-    	translation = serverTranslation.sendJson (_langCode, textToTranslateEdit.getText().toString());
+       
+        
+    	translation = serverTranslation.sendJson (getLangCode(), textToTranslateEdit.getText().toString());
     	
     	translatedTextEdit.setText(translation);
     }
