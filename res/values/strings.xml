@@ -17,4 +17,6 @@
     <string name="ValencianVariant">Utilitza les formes valencianes</string>
     <string name="EditTextHint">Teclegeu el text a traduir i premeu Tradueix</string>
     <string name="ServerError">"S'ha produït un error amb el servidor: %1$s"</string>
+    <string name="OK">"D'acord"</string>
+    <string name="NoInternetConnection">No hi ha connexió a internet.\nCal Internet per poder fer la traducció.</string>
 </resources>

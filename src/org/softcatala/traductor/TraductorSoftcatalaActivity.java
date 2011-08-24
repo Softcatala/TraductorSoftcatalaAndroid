@@ -19,66 +19,85 @@
 package org.softcatala.traductor;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
+import org.softcatala.utils.AndroidUtils;
 
 public class TraductorSoftcatalaActivity extends Activity {
-	
-	EditText translatedTextEdit;
-	EditText textToTranslateEdit;
-	Spinner languagesSpinner;
-	
-	String _langCode;
-	
+
+    EditText translatedTextEdit;
+    EditText textToTranslateEdit;
+    Spinner languagesSpinner;
+    String _langCode;
+    AlertDialog ad;
+
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        translatedTextEdit = (EditText)findViewById(R.id.translatedTextEdit);
-        textToTranslateEdit = (EditText)findViewById(R.id.textToTranslateEdit);    	
-        InitSpinner ();     
-        
+        translatedTextEdit = (EditText) findViewById(R.id.translatedTextEdit);
+        textToTranslateEdit = (EditText) findViewById(R.id.textToTranslateEdit);
+        InitSpinner();
+
     }
-    
-	public void setLangCode (String langCode) {
-		_langCode = langCode;
-	}
-    
-    private void InitSpinner () {
-    	
-    	languagesSpinner = (Spinner)findViewById(R.id.languagesSpinner);
-    	
+
+    public void setLangCode(String langCode) {
+        _langCode = langCode;
+    }
+
+    private void InitSpinner() {
+
+        languagesSpinner = (Spinner) findViewById(R.id.languagesSpinner);
+
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 this, R.array.Languages, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        languagesSpinner.setAdapter(adapter);        
+        languagesSpinner.setAdapter(adapter);
         languagesSpinner.setOnItemSelectedListener(new LanguagesSpinnerListerner(this));
     }
-    
+
     private String getLangCode() {
-        
+
         CheckBox checkbox = (CheckBox) findViewById(R.id.valencia);
-        if(_langCode.equalsIgnoreCase("es|ca") && checkbox.isChecked()) {
+        if (_langCode.equalsIgnoreCase("es|ca") && checkbox.isChecked()) {
             return "es|ca_valencia";
         }
-        
+
         return _langCode;
     }
-    
-    public void OnTranslate (View v)  {    	
-    	String translation;
-    	
-    	ServerTranslation serverTranslation = new ServerTranslation (this);
-       
-        
-    	translation = serverTranslation.sendJson (getLangCode(), textToTranslateEdit.getText().toString());
-    	
-    	translatedTextEdit.setText(translation);
+
+    public void OnTranslate(View v) {
+
+        if (AndroidUtils.checkInternet(this)) {
+
+            String translation;
+
+            ServerTranslation serverTranslation = new ServerTranslation(this);
+
+            translation = serverTranslation.sendJson(getLangCode(), textToTranslateEdit.getText().toString());
+
+            translatedTextEdit.setText(translation);
+
+        } else {
+
+            ad = new AlertDialog.Builder(this).create();
+
+            ad.setMessage(this.getString(R.string.NoInternetConnection));
+            ad.setButton(this.getString(R.string.OK), new DialogInterface.OnClickListener() {
+
+                public void onClick(DialogInterface di, int i) {
+                    ad.hide();
+                    ad = null;
+                }
+            });
+            ad.show();
+        }
     }
-       
 }
