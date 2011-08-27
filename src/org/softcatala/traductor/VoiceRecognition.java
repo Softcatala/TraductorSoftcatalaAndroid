@@ -80,8 +80,10 @@ public class VoiceRecognition {
             
             ArrayList<CharSequence> hints = getResultExtras(true).getCharSequenceArrayList(RecognizerIntent.EXTRA_SUPPORTED_LANGUAGES);
             
-            for (int i = 0; i < hints.size(); i++) {
-            		_voiceRegonition.languages.add(hints.get(i).toString());
+            if (hints != null) {
+	            for (int i = 0; i < hints.size(); i++) {
+	            		_voiceRegonition.languages.add(hints.get(i).toString());
+	            }
             }
         }
     }
