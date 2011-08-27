@@ -6,9 +6,12 @@
     android:weightSum="1">
     
     <TextView android:layout_height="wrap_content" android:layout_width="wrap_content" android:text="@string/TextToTranslate" android:id="@+id/textView2" android:textStyle="bold"></TextView>
-    <EditText android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/textToTranslateEdit" android:hint="@+string/EditTextHint">
+    <LinearLayout android:layout_width="match_parent" android:id="@+id/linearLayout1" android:layout_height="wrap_content">
+        <EditText android:id="@+id/textToTranslateEdit" android:hint="@+string/EditTextHint" android:layout_height="wrap_content" android:layout_width="280dp">
         <requestFocus></requestFocus>
-    </EditText>
+        </EditText>
+        <ImageButton android:id="@+id/voiceButton" android:layout_weight="1" android:onClick="OnVoiceRecognition"  android:layout_width="wrap_content"  android:src="@android:drawable/ic_btn_speak_now" android:layout_height="wrap_content"></ImageButton>
+    </LinearLayout>
     <LinearLayout android:id="@+id/linearLayout2" android:layout_height="wrap_content" android:layout_width="fill_parent">
         <Spinner android:layout_weight="1" android:id="@+id/languagesSpinner" android:layout_height="wrap_content" android:layout_width="211dp"></Spinner>
         <Button android:layout_weight="1" android:onClick="OnTranslate" android:id="@+id/button1" android:layout_height="wrap_content" android:text="@string/Translate" android:layout_width="wrap_content"></Button>
