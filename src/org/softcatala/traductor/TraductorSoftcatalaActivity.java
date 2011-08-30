@@ -128,7 +128,7 @@ public class TraductorSoftcatalaActivity extends Activity {
         
         String lang = voiceRecognition.GetSupportedLangFromSCTranslator (GetSourceSelectedLang ());
         
-        if (lang.isEmpty() == false) {
+        if (AndroidUtils.isEmptyString(lang) == false) {
         	intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, lang);
         }
         
