@@ -27,6 +27,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.view.View;
@@ -52,7 +53,7 @@ public class TraductorSoftcatalaActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
-        voiceRecognition = new VoiceRecognition (this);
+        
         setContentView(R.layout.main);
         translatedTextEdit = (EditText) findViewById(R.id.translatedTextEdit);
         textToTranslateEdit = (EditText) findViewById(R.id.textToTranslateEdit);
@@ -61,10 +62,17 @@ public class TraductorSoftcatalaActivity extends Activity {
         InitSpinner();
         
         PackageManager pm = getPackageManager();
-        List<ResolveInfo> activities = pm.queryIntentActivities(
-                new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);        
         
-        speakButton.setEnabled(activities.size() != 0);        
+        List<ResolveInfo> activities;
+        
+        if(AndroidUtils.getPlatformVersion() >= 8) {
+                voiceRecognition = new VoiceRecognition (this);
+                activities= pm.queryIntentActivities(
+                new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
+                speakButton.setEnabled(activities.size() != 0);
+        } else {
+            speakButton.setVisibility(View.GONE);
+        }     
     }
 
     public void setLangCode(String langCode) {

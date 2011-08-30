@@ -22,17 +22,19 @@ import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import java.lang.reflect.Field;
 
 /**
  *
  * @author xavi
  */
 public class AndroidUtils {
+
     public static boolean checkInternet(Activity act) {
-        ConnectivityManager conMgr = 
+        ConnectivityManager conMgr =
                 (ConnectivityManager) act.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo i = conMgr.getActiveNetworkInfo();
-          if (i == null) {
+        if (i == null) {
             return false;
         }
         if (!i.isConnected()) {
@@ -43,8 +45,24 @@ public class AndroidUtils {
         }
         return true;
     }
-    
+
     public static boolean isEmptyString(String str) {
         return (str == null || str.trim().length() == 0);
+    }
+
+    public static int getPlatformVersion() {
+        try {
+            Field verField = Class.forName("android.os.Build$VERSION").getField("SDK_INT");
+            int ver = verField.getInt(verField);
+            return ver;
+        } catch (Exception e) {
+            try {
+                Field verField = Class.forName("android.os.Build$VERSION").getField("SDK");
+                String verString = (String) verField.get(verField);
+                return Integer.parseInt(verString);
+            } catch (Exception ex) {
+                return -1;
+            }
+        }
     }
 }
