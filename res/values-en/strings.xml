@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Softcatala Translator</string>
+    <string name="app_name">Traductor Softcatalà</string>
     <string name="Translate">Translate</string>
     <string name="TextToTranslate">Text to translate</string>
     <string name="TranslatedText">Translated text</string>
