@@ -23,11 +23,14 @@ import java.util.List;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.speech.RecognizerIntent;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -48,6 +51,8 @@ public class TraductorSoftcatalaActivity extends Activity {
     Spinner languagesSpinner;
     String _langCode;
     AlertDialog ad;
+    private Handler messagesHandler;
+    private String translation = null;
     VoiceRecognition voiceRecognition;
     private AdView adView;
 
@@ -63,6 +68,8 @@ public class TraductorSoftcatalaActivity extends Activity {
         speakButton = (ImageButton) findViewById(R.id.voiceButton);
 
         InitSpinner();
+        
+        messagesHandler = initMessageHandler();
 
         PackageManager pm = getPackageManager();
 
@@ -110,6 +117,19 @@ public class TraductorSoftcatalaActivity extends Activity {
         languagesSpinner.setOnItemSelectedListener(new LanguagesSpinnerListerner(this));
     }
 
+    private Handler initMessageHandler() {
+        return new Handler() {
+            public static final int TranslationReady = 1;
+            @Override
+            public void handleMessage(Message msg) {
+                switch (msg.arg1) {
+                    case Messages.TranslationReady: 
+                        setTranslatedText(translation);
+                }
+            }
+        };
+    }
+    
     private String getLangCode() {
 
         CheckBox checkbox = (CheckBox) findViewById(R.id.valencia);
@@ -120,17 +140,28 @@ public class TraductorSoftcatalaActivity extends Activity {
         return _langCode;
     }
 
+    private void setTranslatedText(String txt) {
+        translatedTextEdit.setText(txt);
+    }
+    
     public void OnTranslate(View v) {
 
+        final Context context;
         if (AndroidUtils.checkInternet(this)) {
+            context = this;
+            new Thread(new Runnable() {
 
-            String translation;
+                public void run() {
 
-            ServerTranslation serverTranslation = new ServerTranslation(this);
+                    ServerTranslation serverTranslation = new ServerTranslation(context);
 
-            translation = serverTranslation.sendJson(getLangCode(), textToTranslateEdit.getText().toString());
+                    translation = serverTranslation.sendJson(getLangCode(), textToTranslateEdit.getText().toString());
 
-            translatedTextEdit.setText(translation);
+                    Message msg = new Message();
+                    msg.arg1 = Messages.TranslationReady;
+                    messagesHandler.sendMessage(msg);
+                }
+            }).start();
 
         } else {
 
