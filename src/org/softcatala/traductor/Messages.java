@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 Xavier Ivars i Ribes <xavi.ivars@gmail.com>
+ * Copyright (C) 2011 Xavier Ivars-Ribes <xavi.ivars@gmail.com>
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
