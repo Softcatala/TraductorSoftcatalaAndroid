@@ -1,0 +1,6 @@
+
+    <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" android:title="@string/Preferences">
+        <CheckBoxPreference android:title="@string/Remember" android:key="remember" android:disableDependentsState="true" android:summary="@string/RememberSummary" android:defaultValue="true"/>
+        <ListPreference android:entries="@array/Languages" android:key="languages" android:title="@string/DefaultLanguage" android:dependency="remember" android:entryValues="@array/Languages"/>
+        <CheckBoxPreference android:title="@string/ValencianVariant" android:key="valencia" android:dependency="remember" android:defaultValue="false"/>
+    </PreferenceScreen>

@@ -26,12 +26,21 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
 import android.speech.RecognizerIntent;
+import android.text.SpannableString;
+import android.text.method.LinkMovementMethod;
+import android.text.util.Linkify;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
@@ -39,9 +48,12 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
+
 import org.softcatala.utils.AndroidUtils;
 
 import com.google.ads.*;
+
 
 public class TraductorSoftcatalaActivity extends Activity {
 
@@ -55,7 +67,7 @@ public class TraductorSoftcatalaActivity extends Activity {
     private String translation = null;
     VoiceRecognition voiceRecognition;
     private AdView adView;
-
+    
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,7 +78,7 @@ public class TraductorSoftcatalaActivity extends Activity {
         translatedTextEdit = (EditText) findViewById(R.id.translatedTextEdit);
         textToTranslateEdit = (EditText) findViewById(R.id.textToTranslateEdit);
         speakButton = (ImageButton) findViewById(R.id.voiceButton);
-
+        
         InitSpinner();
         
         messagesHandler = initMessageHandler();
@@ -100,6 +112,8 @@ public class TraductorSoftcatalaActivity extends Activity {
         //request.addTestDevice(AdRequest.TEST_EMULATOR);
         
         adView.loadAd(request);
+        
+        process_prefs();
     }
 
     public void setLangCode(String langCode) {
@@ -115,6 +129,7 @@ public class TraductorSoftcatalaActivity extends Activity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         languagesSpinner.setAdapter(adapter);
         languagesSpinner.setOnItemSelectedListener(new LanguagesSpinnerListerner(this));
+            
     }
 
     private Handler initMessageHandler() {
@@ -213,4 +228,115 @@ public class TraductorSoftcatalaActivity extends Activity {
             textToTranslateEdit.setText(matches.get(0));
         }
     }
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+    	MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.mainmenu, menu);
+		return true;
+    }
+    
+    @Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		
+		switch (item.getItemId()) {
+		
+		case R.id.preferences:
+			showPreferences();
+			return true;
+		
+		case R.id.about:
+			showAbout();
+			return true;
+		
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+	
+	private void showPreferences(){
+		
+		startActivity( new Intent(this, PreferencesActivity.class) );
+	}
+	private void showAbout()
+	{
+		
+		final SpannableString msg = new SpannableString((CharSequence) this.getString(R.string.UrlSite));
+	    Linkify.addLinks(msg, Linkify.ALL);
+	    
+		AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+		alertDialog.setTitle(this.getString(R.string.app_name));
+		
+		alertDialog.setButton(this.getString(R.string.OK), new DialogInterface.OnClickListener() {
+		   public void onClick(DialogInterface dialog, int which) {
+			   dialog.dismiss();
+		   }
+		});
+		
+		TextView textView = new TextView(this);
+		textView.setText(msg);
+		alertDialog.setView(textView);
+		textView.setMovementMethod(LinkMovementMethod.getInstance());
+			
+		alertDialog.setIcon(R.drawable.icon);
+		alertDialog.show();
+	}
+    
+	private void process_prefs(){
+		
+		SharedPreferences prefs = PreferenceManager
+                .getDefaultSharedPreferences(getBaseContext());
+		
+		CheckBox checkbox = (CheckBox) findViewById(R.id.valencia);
+		 
+		if(prefs.contains("languages")){
+			SharedPreferences.Editor ed = prefs.edit();
+			ed.putString("languages", languagesSpinner.getItemAtPosition(0).toString());
+		}
+		
+		if(prefs.getBoolean("remember", true)){
+			
+			// No preferences or user has selected to remember translation options
+			for (int i = 0; i < languagesSpinner.getCount();i++){
+	        	
+				if (prefs.getString("remember_language", languagesSpinner.getItemAtPosition(0).toString()).equals(languagesSpinner.getItemAtPosition(i).toString()))
+					languagesSpinner.setSelection(i);
+        	}
+			checkbox.setChecked(prefs.getBoolean("valencia", false));
+		
+		}else{
+		
+			// User has selected a default preferences
+			for (int i = 0; i < languagesSpinner.getCount();i++){
+        	
+				if (prefs.getString("languages", languagesSpinner.getItemAtPosition(0).toString()).equals(languagesSpinner.getItemAtPosition(i).toString()))
+					languagesSpinner.setSelection(i);
+        	}
+			
+			if (prefs.getBoolean("valencia", false))
+				checkbox.setChecked(true);
+        	
+		}
+	}
+	
+	protected void onPause(){
+		
+		super.onPause();
+		
+		SharedPreferences prefs = PreferenceManager
+                .getDefaultSharedPreferences(getBaseContext());
+		SharedPreferences.Editor ed = prefs.edit();
+		
+		if(prefs.getBoolean("remember", true)){
+			
+			CheckBox checkbox = (CheckBox) findViewById(R.id.valencia);
+            			
+			ed.putString("remember_language", languagesSpinner.getItemAtPosition(languagesSpinner.getSelectedItemPosition()).toString());
+			ed.putBoolean("valencia", checkbox.isChecked() );
+			ed.commit();
+		
+		}
+	
+	}
+    
 }

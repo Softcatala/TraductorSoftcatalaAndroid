@@ -19,4 +19,10 @@
     <string name="ServerError">An error has ocurr when connecting to the server: %1$s</string>
     <string name="OK">OK</string>
     <string name="NoInternetConnection">"There is not internet connection.\nIt's needed to perform the translation."</string>
+    <string name="Preferences">Preferences</string>
+    <string name="About">About</string>
+    <string name="Remember">Remember</string>
+    <string name="DefaultLanguage">Default language</string>
+    <string name="RememberSummary">Remember last selected options</string>
+    <string name="UrlSite">http://www.softcatala.org/wiki/Projectes/Traductor</string>
 </resources>
