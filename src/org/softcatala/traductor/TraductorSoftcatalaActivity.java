@@ -27,8 +27,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.os.Handler;
@@ -50,7 +51,9 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+
 import org.softcatala.utils.AndroidUtils;
+
 
 import com.google.ads.*;
 
@@ -246,6 +249,7 @@ public class TraductorSoftcatalaActivity extends Activity {
 			return true;
 		
 		case R.id.about:
+			
 			showAbout();
 			return true;
 		
@@ -260,11 +264,24 @@ public class TraductorSoftcatalaActivity extends Activity {
 	}
 	private void showAbout()
 	{
+		PackageManager manager = this.getPackageManager();
+		PackageInfo info = null;
+		try {
+			info = manager.getPackageInfo(this.getPackageName(), 0);
+		} catch (NameNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-		final SpannableString msg = new SpannableString((CharSequence) this.getString(R.string.UrlSite));
+		String 	htmlString  =  this.getString(R.string.AboutVersion) + ": " + info.versionName + "\n";
+	    		htmlString += this.getString(R.string.SiteProject) + ":\n" + this.getString(R.string.UrlSite);
+	    		htmlString += "\n\n" + this.getString(R.string.AboutText);
+	    		
+	   
+	    final SpannableString msg = new SpannableString((CharSequence) htmlString);
 	    Linkify.addLinks(msg, Linkify.ALL);
 	    
-		AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+	    AlertDialog alertDialog = new AlertDialog.Builder(this).create();
 		alertDialog.setTitle(this.getString(R.string.app_name));
 		
 		alertDialog.setButton(this.getString(R.string.OK), new DialogInterface.OnClickListener() {
@@ -275,13 +292,15 @@ public class TraductorSoftcatalaActivity extends Activity {
 		
 		TextView textView = new TextView(this);
 		textView.setText(msg);
+		textView.setPadding(10, 10, 10, 10);
 		alertDialog.setView(textView);
 		textView.setMovementMethod(LinkMovementMethod.getInstance());
 			
 		alertDialog.setIcon(R.drawable.icon);
 		alertDialog.show();
+		
 	}
-    
+	
 	private void process_prefs(){
 		
 		SharedPreferences prefs = PreferenceManager
