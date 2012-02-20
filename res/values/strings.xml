@@ -15,8 +15,17 @@
         <item>Català ⇒ Portuguès</item>
     </string-array>
     <string name="ValencianVariant">Utilitza les formes valencianes</string>
-    <string name="EditTextHint">Introduïu el text que voleu traduir i premeu Tradueix</string>
+    <string name="EditTextHint">Teclegeu el text a traduir i premeu Tradueix</string>
     <string name="ServerError">"S'ha produït un error amb el servidor: %1$s"</string>
     <string name="OK">"D'acord"</string>
     <string name="NoInternetConnection">No hi ha connexió a internet.\nCal Internet per poder fer la traducció.</string>
+    <string name="Preferences">Preferències</string>
+    <string name="About">Quant a...</string>
+    <string name="Remember">Recorda</string>
+    <string name="DefaultLanguage">Sentit de traducció per defecte</string>
+    <string name="RememberSummary">Recorda sempre les darreres opcions utilitzades</string>
+    <string name="UrlSite">http://www.softcatala.org/wiki/Projectes/Traductor</string>
+    <string name="AboutVersion">Versió</string>
+    <string name="SiteProject">Web del projecte</string>
+    <string name="AboutText">Basat en la tecnologia d’Apertium i ScaleMT, dissenyats pel Grup Transducens del Departament de Llenguatges i Sistemes Informàtics de la Universitat d’Alacant, i desenvolupats sota les llicències lliures GPL i AGPL, respectivament.</string>
 </resources>

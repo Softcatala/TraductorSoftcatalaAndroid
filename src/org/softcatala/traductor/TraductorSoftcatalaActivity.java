@@ -1,5 +1,8 @@
 /*
- * Copyright (C) 2011 Jordi Mas i Hernàndez <jmas@softcatala.org>
+ * Copyright (C) 2011 - 2012
+ *  Jordi Mas i Hernàndez <jmas@softcatala.org>
+ *  Xavier Ivars-Ribes <xavi.ivars@gmail.com>
+ *           
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
