@@ -2,7 +2,7 @@
  * Copyright (C) 2011 - 2012
  *  Jordi Mas i Hernàndez <jmas@softcatala.org>
  *  Xavier Ivars-Ribes <xavi.ivars@gmail.com>
- *           
+ *  Miquel Piulats
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -53,13 +53,8 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-
-
 import org.softcatala.utils.AndroidUtils;
-
-
 import com.google.ads.*;
-
 
 public class TraductorSoftcatalaActivity extends Activity {
 
