@@ -89,7 +89,6 @@ public class ServerTranslation {
         try {
             String url = BuildURL(langCode, text);
             uc = (HttpURLConnection) new URL(url).openConnection();
-            uc.setDoInput(true);
             
             InputStream is = uc.getInputStream();
             String result = toString(is);
