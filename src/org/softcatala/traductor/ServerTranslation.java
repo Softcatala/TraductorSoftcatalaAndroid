@@ -83,20 +83,21 @@ public class ServerTranslation {
 
     protected String sendJson(final String langCode, final String text) {
         HttpClient client = new DefaultHttpClient();
-        HttpConnectionParams.setConnectionTimeout(client.getParams(), 10000); //Timeout Limit         
+        HttpConnectionParams.setConnectionTimeout(client.getParams(), 10000); //Timeout Limit 
+        HttpURLConnection uc = null;
 
         try {
             String url = BuildURL(langCode, text);
-            HttpURLConnection uc = (HttpURLConnection) new URL(url).openConnection();
+            uc = (HttpURLConnection) new URL(url).openConnection();
             uc.setDoInput(true);
-            uc.setDoOutput(true);
-
+            
             InputStream is = uc.getInputStream();
             String result = toString(is);
             JSONObject json = new JSONObject(result);
             return ((JSONObject) json.get("responseData")).getString("translatedText");
         } catch (Exception e) {
             String msg = _context.getString(R.string.ServerError);
+            if(uc!=null)uc.disconnect();
             return String.format(msg, e.toString());
         }
     }
