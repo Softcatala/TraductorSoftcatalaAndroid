@@ -20,13 +20,12 @@
 
 package org.softcatala.traductor;
 
-import java.util.ArrayList;
-
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.speech.RecognizerIntent;
+import java.util.ArrayList;
 
 public class VoiceRecognition {
 	
@@ -38,7 +37,8 @@ public class VoiceRecognition {
 					{"en-US", "en"},
 					{"es-ES", "es"},
 					{"pt-BR", "pt"},					
-					{"fr-FR", "fr"}
+					{"fr-FR", "fr"},					
+					{"ca-ES", "ca"}
 	};
 	
 	public VoiceRecognition (Context context) {
