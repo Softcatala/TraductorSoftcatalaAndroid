@@ -26,6 +26,10 @@
     <string name="RememberSummary">Recorda sempre les darreres opcions utilitzades</string>
     <string name="UrlSite">http://www.softcatala.org/wiki/Projectes/Traductor</string>
     <string name="AboutVersion">Versió</string>
+    <string name="Pastesource">Enganxa el text original</string>
+    <string name="Copytarget">Copia la traducció</string>
+    <string name="Share">Comparteix</string>
+    <string name="ShareVia">Comparteix mitjançant</string>
     <string name="SiteProject">Web del projecte</string>
     <string name="AboutText">Basat en la tecnologia d’Apertium i ScaleMT, dissenyats pel Grup Transducens del Departament de Llenguatges i Sistemes Informàtics de la Universitat d’Alacant, i desenvolupats sota les llicències lliures GPL i AGPL, respectivament.</string>
 </resources>

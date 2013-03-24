@@ -21,9 +21,6 @@
  */
 package org.softcatala.traductor;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -53,8 +50,13 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import org.softcatala.utils.AndroidUtils;
 import com.google.ads.*;
+import java.util.ArrayList;
+import java.util.List;
+import org.softcatala.traductor.R;
+import org.softcatala.utils.AndroidUtils;
+import org.softcatala.utils.ClipboardHandler;
+import org.softcatala.utils.ClipboardHandlerApi11;
 
 public class TraductorSoftcatalaActivity extends Activity {
 
@@ -68,8 +70,11 @@ public class TraductorSoftcatalaActivity extends Activity {
     private String translation = null;
     VoiceRecognition voiceRecognition;
     private AdView adView;
-    
-    /** Called when the activity is first created. */
+    private ClipboardHandler clipboardHandler;
+
+    /**
+     * Called when the activity is first created.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,41 +84,34 @@ public class TraductorSoftcatalaActivity extends Activity {
         translatedTextEdit = (EditText) findViewById(R.id.translatedTextEdit);
         textToTranslateEdit = (EditText) findViewById(R.id.textToTranslateEdit);
         speakButton = (ImageButton) findViewById(R.id.voiceButton);
-        
+
         InitSpinner();
-        
+
         messagesHandler = initMessageHandler();
 
         PackageManager pm = getPackageManager();
 
         List<ResolveInfo> activities;
 
-        if (AndroidUtils.getPlatformVersion() >= 8) {
-            voiceRecognition = new VoiceRecognition(this);
-            activities = pm.queryIntentActivities(
-                    new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
-            speakButton.setEnabled(activities.size() != 0);
-        } else {
-            speakButton.setVisibility(View.GONE);
-        }
+        initializeDifferentApi(pm);
 
         adView = new AdView(this, AdSize.BANNER, "a14e945e9a0133f");
 
         // Lookup your LinearLayout assuming it’s been given
         // the attribute android:id="@+id/mainLayout"
-        LinearLayout layout = (LinearLayout)findViewById(R.id.adLayout);
+        LinearLayout layout = (LinearLayout) findViewById(R.id.adLayout);
 
         // Add the adView to it
         layout.addView(adView);
 
         // Initiate a generic request to load it with an ad
         AdRequest request = new AdRequest();
-        
+
         // uncomment to always show an add in the emulator
         //request.addTestDevice(AdRequest.TEST_EMULATOR);
-        
+
         adView.loadAd(request);
-        
+
         process_prefs();
     }
 
@@ -130,22 +128,23 @@ public class TraductorSoftcatalaActivity extends Activity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         languagesSpinner.setAdapter(adapter);
         languagesSpinner.setOnItemSelectedListener(new LanguagesSpinnerListerner(this));
-            
+
     }
 
     private Handler initMessageHandler() {
         return new Handler() {
             public static final int TranslationReady = 1;
+
             @Override
             public void handleMessage(Message msg) {
                 switch (msg.arg1) {
-                    case Messages.TranslationReady: 
+                    case Messages.TranslationReady:
                         setTranslatedText(translation);
                 }
             }
         };
     }
-    
+
     private String getLangCode() {
 
         CheckBox checkbox = (CheckBox) findViewById(R.id.valencia);
@@ -159,14 +158,13 @@ public class TraductorSoftcatalaActivity extends Activity {
     private void setTranslatedText(String txt) {
         translatedTextEdit.setText(txt);
     }
-    
+
     public void OnTranslate(View v) {
 
         final Context context;
         if (AndroidUtils.checkInternet(this)) {
             context = this;
             new Thread(new Runnable() {
-
                 public void run() {
 
                     ServerTranslation serverTranslation = new ServerTranslation(context);
@@ -185,7 +183,6 @@ public class TraductorSoftcatalaActivity extends Activity {
 
             ad.setMessage(this.getString(R.string.NoInternetConnection));
             ad.setButton(this.getString(R.string.OK), new DialogInterface.OnClickListener() {
-
                 public void onClick(DialogInterface di, int i) {
                     ad.hide();
                     ad = null;
@@ -229,131 +226,187 @@ public class TraductorSoftcatalaActivity extends Activity {
             textToTranslateEdit.setText(matches.get(0));
         }
     }
-    
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-    	MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.mainmenu, menu);
-		return true;
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.mainmenu, menu);
+        return true;
     }
-    
+
     @Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		
-		switch (item.getItemId()) {
-		
-		case R.id.preferences:
-			showPreferences();
-			return true;
-		
-		case R.id.about:
-			
-			showAbout();
-			return true;
-		
-		default:
-			return super.onOptionsItemSelected(item);
-		}
-	}
-	
-	private void showPreferences(){
-		
-		startActivity( new Intent(this, PreferencesActivity.class) );
-	}
-	private void showAbout()
-	{
-		PackageManager manager = this.getPackageManager();
-		PackageInfo info = null;
-		try {
-			info = manager.getPackageInfo(this.getPackageName(), 0);
-		} catch (NameNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		String 	htmlString  =  this.getString(R.string.AboutVersion) + ": " + info.versionName + "\n";
-	    		htmlString += this.getString(R.string.SiteProject) + ":\n" + this.getString(R.string.UrlSite);
-	    		htmlString += "\n\n" + this.getString(R.string.AboutText);
-	    		
-	   
-	    final SpannableString msg = new SpannableString((CharSequence) htmlString);
-	    Linkify.addLinks(msg, Linkify.ALL);
-	    
-	    AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-		alertDialog.setTitle(this.getString(R.string.app_name));
-		
-		alertDialog.setButton(this.getString(R.string.OK), new DialogInterface.OnClickListener() {
-		   public void onClick(DialogInterface dialog, int which) {
-			   dialog.dismiss();
-		   }
-		});
-		
-		TextView textView = new TextView(this);
-		textView.setText(msg);
-		textView.setPadding(10, 10, 10, 10);
-		alertDialog.setView(textView);
-		textView.setMovementMethod(LinkMovementMethod.getInstance());
-			
-		alertDialog.setIcon(R.drawable.icon);
-		alertDialog.show();
-		
-	}
-	
-	private void process_prefs(){
-		
-		SharedPreferences prefs = PreferenceManager
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+
+            case R.id.preferences:
+                showPreferences();
+                return true;
+
+            case R.id.about:
+                showAbout();
+                return true;
+
+            case R.id.copytarget:
+                copyTargetText();
+                return true;
+
+            case R.id.pastesource:
+                pasteSourceText();
+                return true;
+
+            case R.id.share:
+                shareTranslation();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void showPreferences() {
+
+        startActivity(new Intent(this, PreferencesActivity.class));
+    }
+
+    private void showAbout() {
+        PackageManager manager = this.getPackageManager();
+        PackageInfo info = null;
+        try {
+            info = manager.getPackageInfo(this.getPackageName(), 0);
+        } catch (NameNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        String htmlString = this.getString(R.string.AboutVersion) + ": " + info.versionName + "\n";
+        htmlString += this.getString(R.string.SiteProject) + ":\n" + this.getString(R.string.UrlSite);
+        htmlString += "\n\n" + this.getString(R.string.AboutText);
+
+
+        final SpannableString msg = new SpannableString((CharSequence) htmlString);
+        Linkify.addLinks(msg, Linkify.ALL);
+
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        alertDialog.setTitle(this.getString(R.string.app_name));
+
+        alertDialog.setButton(this.getString(R.string.OK), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        TextView textView = new TextView(this);
+        textView.setText(msg);
+        textView.setPadding(10, 10, 10, 10);
+        alertDialog.setView(textView);
+        textView.setMovementMethod(LinkMovementMethod.getInstance());
+
+        alertDialog.setIcon(R.drawable.icon);
+        alertDialog.show();
+
+    }
+
+    private void process_prefs() {
+
+        SharedPreferences prefs = PreferenceManager
                 .getDefaultSharedPreferences(getBaseContext());
-		
-		CheckBox checkbox = (CheckBox) findViewById(R.id.valencia);
-		 
-		if(prefs.contains("languages")){
-			SharedPreferences.Editor ed = prefs.edit();
-			ed.putString("languages", languagesSpinner.getItemAtPosition(0).toString());
-		}
-		
-		if(prefs.getBoolean("remember", true)){
-			
-			// No preferences or user has selected to remember translation options
-			for (int i = 0; i < languagesSpinner.getCount();i++){
-	        	
-				if (prefs.getString("remember_language", languagesSpinner.getItemAtPosition(0).toString()).equals(languagesSpinner.getItemAtPosition(i).toString()))
-					languagesSpinner.setSelection(i);
-        	}
-			checkbox.setChecked(prefs.getBoolean("valencia", false));
-		
-		}else{
-		
-			// User has selected a default preferences
-			for (int i = 0; i < languagesSpinner.getCount();i++){
-        	
-				if (prefs.getString("languages", languagesSpinner.getItemAtPosition(0).toString()).equals(languagesSpinner.getItemAtPosition(i).toString()))
-					languagesSpinner.setSelection(i);
-        	}
-			
-			if (prefs.getBoolean("valencia", false))
-				checkbox.setChecked(true);
-        	
-		}
-	}
-	
-	protected void onPause(){
-		
-		super.onPause();
-		
-		SharedPreferences prefs = PreferenceManager
+
+        CheckBox checkbox = (CheckBox) findViewById(R.id.valencia);
+
+        if (prefs.contains("languages")) {
+            SharedPreferences.Editor ed = prefs.edit();
+            ed.putString("languages", languagesSpinner.getItemAtPosition(0).toString());
+        }
+
+        if (prefs.getBoolean("remember", true)) {
+
+            // No preferences or user has selected to remember translation options
+            for (int i = 0; i < languagesSpinner.getCount(); i++) {
+
+                if (prefs.getString("remember_language", languagesSpinner.getItemAtPosition(0).toString()).equals(languagesSpinner.getItemAtPosition(i).toString())) {
+                    languagesSpinner.setSelection(i);
+                }
+            }
+            checkbox.setChecked(prefs.getBoolean("valencia", false));
+
+        } else {
+
+            // User has selected a default preferences
+            for (int i = 0; i < languagesSpinner.getCount(); i++) {
+
+                if (prefs.getString("languages", languagesSpinner.getItemAtPosition(0).toString()).equals(languagesSpinner.getItemAtPosition(i).toString())) {
+                    languagesSpinner.setSelection(i);
+                }
+            }
+
+            if (prefs.getBoolean("valencia", false)) {
+                checkbox.setChecked(true);
+            }
+
+        }
+    }
+
+    protected void onPause() {
+
+        super.onPause();
+
+        SharedPreferences prefs = PreferenceManager
                 .getDefaultSharedPreferences(getBaseContext());
-		SharedPreferences.Editor ed = prefs.edit();
-		
-		if(prefs.getBoolean("remember", true)){
-			
-			CheckBox checkbox = (CheckBox) findViewById(R.id.valencia);
-            			
-			ed.putString("remember_language", languagesSpinner.getItemAtPosition(languagesSpinner.getSelectedItemPosition()).toString());
-			ed.putBoolean("valencia", checkbox.isChecked() );
-			ed.commit();
-		
-		}
-	
-	}
-    
+        SharedPreferences.Editor ed = prefs.edit();
+
+        if (prefs.getBoolean("remember", true)) {
+
+            CheckBox checkbox = (CheckBox) findViewById(R.id.valencia);
+
+            ed.putString("remember_language", languagesSpinner.getItemAtPosition(languagesSpinner.getSelectedItemPosition()).toString());
+            ed.putBoolean("valencia", checkbox.isChecked());
+            ed.commit();
+
+        }
+
+    }
+
+    private void initializeDifferentApi(PackageManager pm) {
+        List<ResolveInfo> activities;
+        if (AndroidUtils.getPlatformVersion() >= 8) {
+            voiceRecognition = new VoiceRecognition(this);
+            activities = pm.queryIntentActivities(
+                    new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
+            speakButton.setEnabled(activities.size() != 0);
+        } else {
+            speakButton.setVisibility(View.GONE);
+        }
+
+        if (AndroidUtils.getPlatformVersion() >= 11) {
+            clipboardHandler = new ClipboardHandlerApi11(this);
+        } else {
+            clipboardHandler = new ClipboardHandler(this);
+        }
+    }
+
+    private void shareTranslation() {
+        String text = translatedTextEdit.getText().toString();
+        if (text != null && text.length() > 0) {
+            Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+            sharingIntent.setType("text/plain");
+            sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Traductor de Softcatalà");
+            sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, translatedTextEdit.getText().toString());
+            startActivity(Intent.createChooser(sharingIntent, getString(R.string.ShareVia)));
+        }
+    }
+
+    private void pasteSourceText() {
+        String inputText = clipboardHandler.getText();
+        if (inputText.length() > 0) {
+            textToTranslateEdit.setText(inputText);
+        }
+    }
+
+    private void copyTargetText() {
+        String text = translatedTextEdit.getText().toString();
+        if (text != null && text.length() > 0) {
+            clipboardHandler.putText(text);
+        }
+    }
 }
