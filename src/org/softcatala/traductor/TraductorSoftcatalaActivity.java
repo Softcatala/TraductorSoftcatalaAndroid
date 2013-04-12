@@ -390,7 +390,6 @@ public class TraductorSoftcatalaActivity extends Activity {
         if (text != null && text.length() > 0) {
             Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
             sharingIntent.setType("text/plain");
-            sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Traductor de Softcatalà");
             sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, translatedTextEdit.getText().toString());
             startActivity(Intent.createChooser(sharingIntent, getString(R.string.ShareVia)));
         }

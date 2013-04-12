@@ -33,7 +33,7 @@ public class ClipboardHandlerApi11 extends ClipboardHandler {
   @Override
   public void putText(String text) {
     ClipboardManager clipboard = (ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);
-    ClipData clip = ClipData.newPlainText("simple text", text);
+    ClipData clip = ClipData.newPlainText("", text);
     clipboard.setPrimaryClip(clip);
   }
 
