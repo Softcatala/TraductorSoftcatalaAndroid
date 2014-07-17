@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:weightSum="1">
+    
+    <TextView android:layout_height="wrap_content" android:layout_width="wrap_content" android:text="@string/TextToTranslate" android:id="@+id/textView2" android:textStyle="bold"></TextView>
+    <LinearLayout android:layout_width="fill_parent" android:id="@+id/linearLayout1" android:layout_height="wrap_content">
+        <EditText android:id="@+id/textToTranslateEdit" android:hint="@+string/EditTextHint" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_weight="1">
+            <requestFocus></requestFocus>
+        </EditText>
+        <ImageButton android:id="@+id/voiceButton" android:onClick="OnVoiceRecognition" android:layout_width="wrap_content" android:layout_height="wrap_content" android:src="@android:drawable/ic_btn_speak_now" />
+    </LinearLayout>
+    <LinearLayout android:id="@+id/linearLayout2" android:layout_height="wrap_content" android:layout_width="fill_parent">
+        <Spinner android:layout_weight="1" android:id="@+id/languagesSpinner" android:layout_height="wrap_content" android:layout_width="211dp"></Spinner>
+        <Button android:layout_weight="1" android:onClick="OnTranslate" android:id="@+id/button1" android:layout_height="wrap_content" android:text="@string/Translate" android:layout_width="wrap_content"></Button>
+    </LinearLayout>
+    <CheckBox android:id="@+id/valencia" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/ValencianVariant" />
+    <TextView android:layout_height="wrap_content" android:layout_width="wrap_content" android:text="@string/TranslatedText" android:id="@+id/textView3" android:textStyle="bold"></TextView>
+    <EditText android:layout_width="fill_parent" android:layout_height="wrap_content" android:id="@+id/translatedTextEdit" android:editable="false">
+    </EditText>
+    <LinearLayout android:id="@+id/adLayout" android:layout_width="fill_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/customBanner"
+            android:src="@drawable/baner" />
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,24 @@
+apply plugin: 'android'
+
+android {
+    compileSdkVersion 19
+    buildToolsVersion "19.1"
+
+    defaultConfig {
+        applicationId "org.softcatala.traductor"
+        minSdkVersion 8
+        targetSdkVersion 10
+    }
+
+    buildTypes {
+        release {
+            runProguard false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+}
+
+dependencies {
+    compile files('libs/GoogleAdMobAdsSdk-4.1.1.jar')
+    compile "com.android.support:appcompat-v7:18.0.+"
+}

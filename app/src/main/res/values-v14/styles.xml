@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="SoftcatalaBackground" parent="android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">@color/SoftcatalaDarkRed</item>
+    </style>
+</resources>

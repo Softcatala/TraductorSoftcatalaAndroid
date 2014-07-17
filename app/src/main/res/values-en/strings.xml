@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Traductor Softcatalà</string>
+    <string name="Translate">Translate</string>
+    <string name="TextToTranslate">Text to translate</string>
+    <string name="TranslatedText">Translated text</string>
+    <string-array name="Languages">
+        <item>Spanish ⇒ Catalan</item>
+        <item>Catalan ⇒ Spanish</item>
+        <item>English ⇒ Catalan</item>
+        <item>Catalan ⇒ English</item>
+        <item>French ⇒ Catalan</item>
+        <item>Catalan ⇒ French</item>
+        <item>Portuguese ⇒ Catalan</item>
+        <item>Catalan ⇒ Portuguese</item>
+    </string-array>
+    <string name="ValencianVariant">Use Valencian variant</string>
+    <string name="EditTextHint">Type the text to translate and press Translate</string>
+    <string name="ServerError">An error has ocurred when connecting to the server: %1$s</string>
+    <string name="OK">OK</string>
+    <string name="NoInternetConnection">"There is no internet connection available.\nA connection is required to perform the translation."</string>
+    <string name="Preferences">Preferences</string>
+    <string name="About">About</string>
+    <string name="Remember">Remember</string>
+    <string name="DefaultLanguage">Default language</string>
+    <string name="RememberSummary">Remember last selected options</string>
+    <string name="UrlSite">http://www.softcatala.org/wiki/Projectes/Traductor</string>
+    <string name="AboutVersion">Version</string>
+    <string name="Pastesource">Paste the original text</string>
+    <string name="Copytarget">Copy the translation</string>
+    <string name="Share">Share</string>
+    <string name="ShareVia">Share via</string>
+    <string name="SiteProject">Project webpage</string>
+    <string name="AboutText">Based on technology of Apertium and ScaleMT, designed by Transducens Group, from the Department of Software and Computing Systems at Universitat d’Alacant, and developed under free GPL and AGPL licenses, respectively.</string>
+</resources>

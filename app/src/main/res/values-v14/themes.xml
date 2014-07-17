@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Softcatala" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:windowTitleBackgroundStyle">@style/SoftcatalaBackground</item>
+        <item name="android:actionBarStyle">@style/SoftcatalaBackground</item>
+        <item name="android:logo">@drawable/actionbaricon</item>
+    </style>
+</resources>
