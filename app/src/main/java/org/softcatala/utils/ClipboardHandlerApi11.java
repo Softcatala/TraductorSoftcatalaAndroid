@@ -19,12 +19,12 @@
  */
 package org.softcatala.utils;
 
-//import android.annotation.TargetApi;
+import android.annotation.TargetApi;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 
-//@TargetApi(11)
+@TargetApi(11)
 public class ClipboardHandlerApi11 extends ClipboardHandler {
   public ClipboardHandlerApi11(Context thisActivity) {
     super(thisActivity);
