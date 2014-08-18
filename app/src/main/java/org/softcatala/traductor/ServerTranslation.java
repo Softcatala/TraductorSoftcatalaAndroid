@@ -28,6 +28,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.net.UnknownHostException;
 
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
@@ -99,7 +100,16 @@ public class ServerTranslation {
             if (uc != null) {
                 uc.disconnect();
             }
-            return String.format(msg, e.toString());
+
+            String exceptionMessage = "";
+
+            if(e instanceof UnknownHostException) {
+                exceptionMessage = _context.getString(R.string.UnkownHostExceptionMessage);
+            } else {
+                exceptionMessage = e.toString();
+            }
+
+            return String.format(msg, exceptionMessage);
         }
     }
 

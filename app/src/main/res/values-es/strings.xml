@@ -17,6 +17,7 @@
     <string name="ValencianVariant">Utilizar la variante valenciana</string>
     <string name="EditTextHint">Teclea el texto a traducir y pulsa Traducir</string>
     <string name="ServerError">Error al conectar con el servidor: %1$s</string>
+    <string name="UnkownHostExceptionMessage">No se ha encontrado el servidor</string>
     <string name="OK">Aceptar</string>
     <string name="NoInternetConnection">No hay conexión a Internet.\nSe necesita Internet para realizar la traducción.</string>
     <string name="Preferences">Preferencias</string>
