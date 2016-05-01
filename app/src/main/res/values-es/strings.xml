@@ -25,7 +25,7 @@
     <string name="Remember">Recuerda</string>
     <string name="DefaultLanguage">Lengua por defecto</string>
     <string name="RememberSummary">Recuerda las últimas opciones indicadas</string>
-    <string name="UrlSite">http://www.softcatala.org/wiki/Projectes/Traductor</string>
+    <string name="UrlSite">https://www.softcatala.org/projectes/traductor/</string>
     <string name="AboutVersion">Versión</string>
     <string name="Pastesource">Pega el texto original</string>
     <string name="Copytarget">Copia la traducción</string>
