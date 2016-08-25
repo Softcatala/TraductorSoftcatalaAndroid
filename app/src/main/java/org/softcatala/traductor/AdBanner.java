@@ -40,7 +40,7 @@ import java.security.NoSuchAlgorithmException;
 
 public class AdBanner {
 
-    public static final String WWW_SOFTCATALA_ORG = "http://catalanitzador.softcatala.org/android.php";
+    public static final String WWW_SOFTCATALA_ORG = "https://www.softcatala.org/ordinadors-i-mobils-en-catala/tutorials/configurar-android-en-catala/";
     public static final String _fingerPrint = "72219CB6232B8B4B1736170EC40A1FFB8B688ABA";
     private static final String _debugFingerPrint = "3673362519378B3698770EEA2AD442292AB9";
 
