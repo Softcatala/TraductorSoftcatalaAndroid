@@ -37,7 +37,7 @@ import org.json.JSONObject;
 
 public class ServerTranslation {
 
-    private static final String SERVER_URL = "http://www.softcatala.org/apertium/json/translate";
+    private static final String SERVER_URL = "https://www.softcatala.org/apertium/json/translate";
     private static final String ENCODING = "UTF-8";
     private static final String KEY = "NWI0MjQwMzQ2MzYyMzEzNjMyNjQ";
     String _language;
