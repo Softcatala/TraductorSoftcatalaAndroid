@@ -13,6 +13,10 @@
         <item>Catalán ⇒ Francés</item>
         <item>Portugués ⇒ Catalán</item>
         <item>Catalán ⇒ Portugués</item>
+        <item>Occitano/Aranés ⇒ Catalán</item>
+        <item>Catalán ⇒ Occitano/Aranés</item>
+        <item>Aragonés ⇒ Catalán</item>
+        <item>Catalán ⇒ Aragonés</item>
     </string-array>
     <string name="ValencianVariant">Utilizar la variante valenciana</string>
     <string name="EditTextHint">Teclea el texto a traducir y pulsa Traducir</string>

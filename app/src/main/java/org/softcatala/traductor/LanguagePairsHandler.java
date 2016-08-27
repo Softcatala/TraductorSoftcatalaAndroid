@@ -135,6 +135,7 @@ public class LanguagePairsHandler implements AdapterView.OnItemSelectedListener 
 
     private String[] _languages = {
             "es|ca", "ca|es", "en|ca", "ca|en",
-            "fr|ca", "ca|fr", "pt|ca", "ca|pt"
+            "fr|ca", "ca|fr", "pt|ca", "ca|pt",
+            "oc|ca", "ca|oc", "arg|ca", "ca|arg"
     };
 }
