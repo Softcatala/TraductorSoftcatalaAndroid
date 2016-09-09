@@ -31,9 +31,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.google.ads.AdRequest;
-import com.google.ads.AdSize;
-import com.google.ads.AdView;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -73,7 +73,9 @@ public class AdBanner {
         }
 
         if(_isPlayStoreVersion) {
-            _adView = new AdView(_activity, AdSize.BANNER, "a14e945e9a0133f");
+            _adView = new AdView(_activity);
+            _adView.setAdSize(AdSize.BANNER);
+            _adView.setAdUnitId("a14e945e9a0133f");
 
             _customBanner.setVisibility(View.GONE);
 
@@ -81,11 +83,10 @@ public class AdBanner {
             _layout.addView(_adView);
 
             // Initiate a generic request to load it with an ad
-            AdRequest request = new AdRequest();
-
+            AdRequest request = new AdRequest.Builder().build();
             // uncomment to always show an add in the emulator
             if (_debug) {
-                request.addTestDevice(AdRequest.TEST_EMULATOR);
+                //request.addTestDevice(AdRequest.TEST_EMULATOR);
             }
 
             _adView.loadAd(request);
