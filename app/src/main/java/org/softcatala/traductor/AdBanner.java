@@ -43,6 +43,8 @@ public class AdBanner {
     public static final String WWW_SOFTCATALA_ORG = "https://www.softcatala.org/ordinadors-i-mobils-en-catala/tutorials/configurar-android-en-catala/";
     public static final String _fingerPrint = "72219CB6232B8B4B1736170EC40A1FFB8B688ABA";
     private static final String _debugFingerPrint = "3673362519378B3698770EEA2AD442292AB9";
+    private static final String _adUnitId = "ca-app-pub-5137971297629213/4127231332";
+    private static final String _legacyAdUnitId = "a14e945e9a0133f";
 
     private final boolean _debug;
     private AdView _adView;
@@ -66,7 +68,7 @@ public class AdBanner {
     public void Setup() {
         setupCustomBanner();
 
-        _isPlayStoreVersion = IsPlayStoreVersion();
+        _isPlayStoreVersion = IsPlayStoreVersion() || BuildConfig.DEBUG;
 
         if (_layout == null) {
             return;
@@ -74,8 +76,8 @@ public class AdBanner {
 
         if(_isPlayStoreVersion) {
             _adView = new AdView(_activity);
-            _adView.setAdSize(AdSize.BANNER);
-            _adView.setAdUnitId("a14e945e9a0133f");
+            _adView.setAdSize(AdSize.SMART_BANNER);
+            _adView.setAdUnitId(_adUnitId);
 
             _customBanner.setVisibility(View.GONE);
 
@@ -84,14 +86,9 @@ public class AdBanner {
 
             // Initiate a generic request to load it with an ad
             AdRequest request = new AdRequest.Builder().build();
-            // uncomment to always show an add in the emulator
-            if (_debug) {
-                //request.addTestDevice(AdRequest.TEST_EMULATOR);
-            }
 
             _adView.loadAd(request);
         }
-
     }
 
     private void setupCustomBanner() {
