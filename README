@@ -1,15 +1,18 @@
 --- Introduction
 
-This is a Android client for the Softcatalà on-line web translation service (http://www.softcatala.org/traductor)
+This is a Android client for the Softcatalà on-line web translation service (https://www.softcatala.org/traductor)
 
 Project: https://www.softcatala.org/projectes/traductor/
 
--- Development
 
-This project has been created with Eclipse IDE and Android Development Tools (ADT). 
+--- Currently available on the Play store.
 
-To get started, just create a new workspace and add this project as an already existing project. 
+<a href="https://play.google.com/store/apps/details?id=org.softcatala.traductor"><img alt="Get it on Google Play" src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" height=36px /></a>
 
--- Contact Information
+--- Development
+
+This project has been created with Android Studio.
+
+--- Contact Information
 Jordi Mas - jmas@softcatala.org
 Xavi Ivars - xavi.ivars@gmail.com
