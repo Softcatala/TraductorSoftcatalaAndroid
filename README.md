@@ -14,5 +14,7 @@ Project: https://www.softcatala.org/projectes/traductor/
 This project has been created with Android Studio.
 
 ## Contact Information
+
 Jordi Mas - jmas@softcatala.org
+
 Xavi Ivars - xavi.ivars@gmail.com
