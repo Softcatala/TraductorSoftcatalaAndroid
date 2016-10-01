@@ -19,30 +19,35 @@
  */
 package org.softcatala.utils;
 
-//import android.annotation.TargetApi;
+import android.content.ClipData;
 import android.content.Context;
-import android.text.ClipboardManager;
 
-//@TargetApi(11)
 public class ClipboardHandler {
-  protected Context activity;
+    private Context activity;
 
-  public ClipboardHandler(Context thisActivity) {
-    activity = thisActivity;
+    public ClipboardHandler(Context thisActivity) {
+        activity = thisActivity;
 
-  }
+    }
 
-  @SuppressWarnings("deprecation")
-  public void putText(String text) {
-    ClipboardManager clipboard = (ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);
-    clipboard.setText(text);
-  }
+    public void putText(String text) {
+        android.content.ClipboardManager clipboard = (android.content.ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("", text);
+        clipboard.setPrimaryClip(clip);
+    }
 
-  @SuppressWarnings("deprecation")
-  public String getText() {
-    String text = null;
-    ClipboardManager clipboard = (ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);
-    text = clipboard.getText().toString();
-    return text;
-  }
+    public String getText() {
+        String text = null;
+        android.content.ClipboardManager clipboard = (android.content.ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);
+        if (clipboard.hasPrimaryClip()) {
+            ClipData clipData = clipboard.getPrimaryClip();
+            if (clipData != null) {
+                ClipData.Item item = clipData.getItemAt(0);
+                if (item != null) {
+                    text = item.coerceToText(activity).toString();
+                }
+            }
+        }
+        return text;
+    }
 }

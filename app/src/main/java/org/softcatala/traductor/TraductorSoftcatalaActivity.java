@@ -44,10 +44,8 @@ import android.widget.ImageButton;
 
 import org.softcatala.utils.AndroidUtils;
 import org.softcatala.utils.ClipboardHandler;
-import org.softcatala.utils.ClipboardHandlerApi11;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import android.text.TextWatcher;
@@ -209,12 +207,8 @@ public class TraductorSoftcatalaActivity extends AppCompatActivity implements Te
         } else {
             _voiceRecognitionButton.setVisibility(View.GONE);
         }
+        _clipboardHandler = new ClipboardHandler(this);
 
-        if (AndroidUtils.getPlatformVersion() >= 11) {
-            _clipboardHandler = new ClipboardHandlerApi11(this);
-        } else {
-            _clipboardHandler = new ClipboardHandler(this);
-        }
     }
 
     private void shareTranslation() {
