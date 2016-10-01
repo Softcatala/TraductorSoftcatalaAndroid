@@ -21,7 +21,6 @@
 
 package org.softcatala.traductor;
 
-import android.app.Activity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -31,15 +30,15 @@ import android.widget.Spinner;
 import java.util.Arrays;
 import java.util.List;
 
-public class LanguagePairsHandler implements AdapterView.OnItemSelectedListener {
+public class LanguagePairsHandler implements AdapterView.OnItemSelectedListener, AdapterView.OnClickListener {
 
     private CheckBox _valencia;
-    private Activity _activity;
+    private TraductorSoftcatalaActivity _activity;
     private Spinner _languagesSpinner;
 
     private String _langPairCode;
 
-    public LanguagePairsHandler(Activity activity) {
+    public LanguagePairsHandler(TraductorSoftcatalaActivity activity) {
         _activity = activity;
         _valencia = (CheckBox) _activity.findViewById(R.id.valencia);
 
@@ -56,8 +55,8 @@ public class LanguagePairsHandler implements AdapterView.OnItemSelectedListener 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         _languagesSpinner.setAdapter(adapter);
-
         _languagesSpinner.setOnItemSelectedListener(this);
+        _valencia.setOnClickListener(this);
 
     }
 
@@ -106,6 +105,7 @@ public class LanguagePairsHandler implements AdapterView.OnItemSelectedListener 
         }
 
         setLanguagePairCode(lang);
+        _activity.OnLanguagePairChanged();
     }
 
     public void onNothingSelected(AdapterView<?> parent) {
@@ -138,4 +138,9 @@ public class LanguagePairsHandler implements AdapterView.OnItemSelectedListener 
             "fr|ca", "ca|fr", "pt|ca", "ca|pt",
             "oc|ca", "ca|oc", "arg|ca", "ca|arg"
     };
+
+    @Override
+    public void onClick(View view) {
+        _activity.OnLanguagePairChanged();
+    }
 }

@@ -30,6 +30,7 @@ import android.net.Uri;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
@@ -49,7 +50,7 @@ public class AdBanner {
     private final boolean _debug;
     private AdView _adView;
     private Activity _activity;
-    private LinearLayout _layout;
+    private RelativeLayout _layout;
     private boolean _isPlayStoreVersion = false;
     private ImageView _customBanner;
 
@@ -61,7 +62,7 @@ public class AdBanner {
     public AdBanner(Activity activity, int layoutId, boolean debug) {
 
         _activity = activity;
-        _layout = (LinearLayout) _activity.findViewById(layoutId);
+        _layout = (RelativeLayout) _activity.findViewById(layoutId);
         _debug = debug;
     }
 
@@ -87,14 +88,21 @@ public class AdBanner {
             // Initiate a generic request to load it with an ad
             AdRequest request = new AdRequest.Builder().build();
 
+
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) _adView.getLayoutParams();
+            params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+            params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+
+            _adView.setLayoutParams(params);
+
             _adView.loadAd(request);
         }
     }
 
     private void setupCustomBanner() {
-        _customBanner = (ImageView)_activity.findViewById(R.id.customBanner);
-        _customBanner.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
+        _customBanner = (ImageView) _activity.findViewById(R.id.customBanner);
+        _customBanner.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setAction(Intent.ACTION_VIEW);
                 intent.addCategory(Intent.CATEGORY_BROWSABLE);
@@ -118,8 +126,7 @@ public class AdBanner {
             String currentFingerprint = computeFingerPrint(signs[0].toByteArray());
 
             return currentFingerprint;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
 
             return "SIGNATURE_NOT_FOUND";
         }
@@ -137,8 +144,7 @@ public class AdBanner {
                 strResult += String.format("%02x", b & 0xff);
             }
             strResult = strResult.toUpperCase();
-        }
-        catch (NoSuchAlgorithmException ex) {
+        } catch (NoSuchAlgorithmException ex) {
             ex.printStackTrace();
         }
 

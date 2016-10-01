@@ -1,13 +1,13 @@
 apply plugin: 'android'
 
 android {
-    compileSdkVersion 19
+    compileSdkVersion 22
     buildToolsVersion "21.1"
 
     defaultConfig {
         applicationId "org.softcatala.traductor"
-        minSdkVersion 9
-        targetSdkVersion 10
+        minSdkVersion 11
+        targetSdkVersion 11
     }
 
     buildTypes {
@@ -20,5 +20,5 @@ android {
 
 dependencies {
     compile 'com.google.android.gms:play-services-ads:9.4.0'
-    compile "com.android.support:appcompat-v7:18.0.+"
+    compile "com.android.support:appcompat-v7:22.1.+"
 }
