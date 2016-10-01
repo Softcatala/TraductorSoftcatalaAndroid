@@ -110,7 +110,6 @@ public class TraductorSoftcatalaActivity extends AppCompatActivity implements Te
     }
 
     private Handler initMessageHandler() {
-        final boolean isChecked = ((CheckBox) findViewById(R.id.valencia)).isChecked();
 
         return new Handler() {
             @Override
@@ -118,7 +117,8 @@ public class TraductorSoftcatalaActivity extends AppCompatActivity implements Te
                 switch (msg.arg1) {
                     case Messages.TranslationReady:
                         setTranslatedText(_translator.TranslatedText);
-                        _preferences.savePreferences(isChecked, _languagePairsHandler.getLanguagePairCode());
+                        _preferences.savePreferences(_languagePairsHandler.isValencianChecked(),
+                                _languagePairsHandler.getLanguagePairCode());
                 }
             }
         };
@@ -240,10 +240,9 @@ public class TraductorSoftcatalaActivity extends AppCompatActivity implements Te
         _preferences = new Preferences(getBaseContext());
 
         CheckBox checkbox = (CheckBox) findViewById(R.id.valencia);
-
         checkbox.setChecked(_preferences.isValenciaChecked());
 
-        _languagePairsHandler.setLanguage(_languagePairsHandler.DefaultLanguagePair);
+        _languagePairsHandler.setLanguage(_preferences.getLanguage(_languagePairsHandler.DefaultLanguagePair));
     }
 
     @Override
