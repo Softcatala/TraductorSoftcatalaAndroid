@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Traductor Softcatalà</string>
-    <string name="Translate">Tradueix</string>
-    <string name="TextToTranslate">"Text que s'ha de traduir"</string>
-    <string name="TranslatedText">Text traduït</string>
     <string-array name="Languages">
         <item>Castellà ⇒ Català</item>
         <item>Català ⇒ Castellà</item>
@@ -19,7 +16,7 @@
         <item>Català ⇒ Aragonès</item>
     </string-array>
     <string name="ValencianVariant">Utilitza les formes valencianes</string>
-    <string name="EditTextHint">Teclegeu el text a traduir i premeu Tradueix</string>
+    <string name="EditTextHint">Teclegeu el text a traduir</string>
     <string name="ServerError">S\'ha produït un error amb el servidor: %1$s</string>
     <string name="UnkownHostExceptionMessage">No s\'ha trobat el servidor</string>
     <string name="OK">"D'acord"</string>

@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Traductor Softcatalà</string>
-    <string name="Translate">Translate</string>
-    <string name="TextToTranslate">Text to translate</string>
-    <string name="TranslatedText">Translated text</string>
     <string-array name="Languages">
         <item>Spanish ⇒ Catalan</item>
         <item>Catalan ⇒ Spanish</item>
@@ -19,8 +16,8 @@
         <item>Catalan ⇒ Aragonese</item>
     </string-array>
     <string name="ValencianVariant">Use Valencian variant</string>
-    <string name="EditTextHint">Type the text to translate and press Translate</string>
-    <string name="ServerError">An error has ocurred when connecting to the server: %1$s</string>
+    <string name="EditTextHint">Type the text to translate</string>
+    <string name="ServerError">An error has occurred when connecting to the server: %1$s</string>
     <string name="UnkownHostExceptionMessage">Host not found</string>
     <string name="OK">OK</string>
     <string name="NoInternetConnection">"There is no internet connection available.\nA connection is required to perform the translation."</string>

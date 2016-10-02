@@ -17,7 +17,7 @@
     <CheckBox android:id="@+id/valencia" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/ValencianVariant" />
   
     <LinearLayout android:layout_width="fill_parent" android:id="@+id/linearLayout1" android:layout_height="wrap_content">
-        <EditText android:id="@+id/textToTranslateEdit" android:hint="@+string/EditTextHint" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_weight="1">
+        <EditText android:id="@+id/textToTranslateEdit" android:hint="@string/EditTextHint" android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_weight="1">
             <requestFocus></requestFocus>
         </EditText>
         <ImageButton android:id="@+id/voiceButton" android:onClick="OnVoiceRecognition" style="?android:attr/borderlessButtonStyle"
