@@ -33,7 +33,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.speech.RecognizerIntent;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -48,13 +47,12 @@ import org.softcatala.utils.ClipboardHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.text.TextWatcher;
-import android.text.Editable;
+interface ITranslate
+{
+    void OnTranslate();
+}
 
-import java.util.Timer;
-import java.util.TimerTask;
-
-public class TraductorSoftcatalaActivity extends AppCompatActivity implements TextWatcher {
+public class TraductorSoftcatalaActivity extends AppCompatActivity implements ITranslate {
 
     private static final int VOICE_RECOGNITION_REQUEST_CODE = 1714;
 
@@ -84,7 +82,7 @@ public class TraductorSoftcatalaActivity extends AppCompatActivity implements Te
 
         _targetTextEditor = (EditText) findViewById(R.id.translatedTextEdit);
         _sourceTextEditor = (EditText) findViewById(R.id.textToTranslateEdit);
-        _sourceTextEditor.addTextChangedListener(this);
+        _sourceTextEditor.addTextChangedListener(new SourceTextEditorWatcher(this, _sourceTextEditor));
 
         _voiceRecognitionButton = (ImageButton) findViewById(R.id.voiceButton);
         _languagePairsHandler = new LanguagePairsHandler(this);
@@ -245,74 +243,6 @@ public class TraductorSoftcatalaActivity extends AppCompatActivity implements Te
         _languagePairsHandler.setLanguage(_preferences.getLanguage(_languagePairsHandler.DefaultLanguagePair));
     }
 
-    @Override
-    public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
-    }
-
-    @Override
-    public void afterTextChanged(Editable arg0) {
-    }
-
-    final int MAX_WAIT_TIME = 3000;
-    final int MIN_WAIT_TIME = 1000;
-    final int WAIT_BETWEEN_WORDS = 10000;
-    private final Object lock = new Object();
-    private int prevTextLen = 0;
-    private Timer timer = null;
-    private TimerTask timerTask = null;
-    long lastCheck = System.currentTimeMillis();
-
-    /*
-        Cases are supported:
-            - When the user is typing only request translation at word boundaries when we have not
-            that for more than 10 seconds
-            - When we have just copied text translated right away
-            - After the user stops typing after less than 3 seconds the translation will be requested
-     */
-    @Override
-    public void onTextChanged(CharSequence arg0, int start, int before, int count) {
-        synchronized (lock) {
-            boolean wordLimit = false;
-            for (int i = 0; i < count; i++) {
-                char c = arg0.charAt(start + i);
-                if (c == ' ' || c == '.' || c == ',') {
-                    Log.d("softcatala", "Word limit found");
-                    wordLimit = true;
-                    break;
-                }
-            }
-
-            if (timer != null)
-                timer.cancel();
-
-            if (timerTask != null)
-                timerTask.cancel();
-
-            timer = new Timer();
-            timerTask = new TimerTask() {
-                @Override
-                public void run() {
-                    Log.d("softcatala", "Request translation");
-                    OnTranslate();
-                    synchronized (lock) {
-                        prevTextLen = _sourceTextEditor.getText().toString().length();
-                        lastCheck = System.currentTimeMillis();
-                    }
-                }
-            };
-
-            int len = prevTextLen;
-            int time;
-
-            if (wordLimit && System.currentTimeMillis() - lastCheck > WAIT_BETWEEN_WORDS)
-                time = 0;
-            else
-                time = len == 0 ? MIN_WAIT_TIME : MAX_WAIT_TIME;
-
-            Log.d("softcatala", "Request scheduled:" + time);
-            timer.schedule(timerTask, time);
-        }
-    }
 
     public void OnLanguagePairChanged() {
         OnTranslate();
