@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2011 - 2013
+ * Copyright (C) 2011 - 2016
  *  Jordi Mas i Hernàndez <jmas@softcatala.org>
  *  Xavier Ivars-Ribes <xavi.ivars@gmail.com>
  *  Miquel Piulats
@@ -23,6 +23,7 @@
 package org.softcatala.traductor;
 
 import android.graphics.Color;
+import android.os.Build;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.app.AppCompatActivity;
 import android.content.DialogInterface;
@@ -37,6 +38,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -47,8 +49,7 @@ import org.softcatala.utils.ClipboardHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-interface ITranslate
-{
+interface ITranslate {
     void OnTranslate();
 }
 
@@ -99,12 +100,21 @@ public class TraductorSoftcatalaActivity extends AppCompatActivity implements IT
         _infoDialog = new InfoDialog(this);
         _sharer = new Sharer(this);
 
+        configureToolbar();
+    }
+
+    private void configureToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setIcon(R.drawable.actionbaricon);
         toolbar.setTitleTextColor(Color.WHITE);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
+        }
     }
 
     private Handler initMessageHandler() {
