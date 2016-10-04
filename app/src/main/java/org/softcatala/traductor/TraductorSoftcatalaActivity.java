@@ -253,8 +253,12 @@ public class TraductorSoftcatalaActivity extends AppCompatActivity implements IT
         _languagePairsHandler.setLanguage(_preferences.getLanguage(_languagePairsHandler.DefaultLanguagePair));
     }
 
-
     public void OnLanguagePairChanged() {
+
+        String sourceLanguage = _languagePairsHandler.getSourceLanguage();
+        boolean enabled = _voiceRecognition.isLanguageSupported(sourceLanguage);
+        _voiceRecognitionButton.setEnabled(enabled);
+        _voiceRecognitionButton.setVisibility(enabled == true ? View.VISIBLE : View.GONE);
         OnTranslate();
     }
 }

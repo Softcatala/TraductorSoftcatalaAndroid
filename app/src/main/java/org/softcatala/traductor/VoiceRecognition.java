@@ -65,6 +65,11 @@ public class VoiceRecognition {
         return intent;
     }
 
+    boolean isLanguageSupported(String sourceLanguage) {
+        String lang = getSupportedLangFromSCTranslator(sourceLanguage);
+        return lang.isEmpty() == false;
+    }
+
     private String getSupportedLangFromSCTranslator(String sourceLanguage) {
 
         for (int i = 0; i < _languagePairsMap.length; i++) {
