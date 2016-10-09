@@ -49,11 +49,7 @@ import org.softcatala.utils.ClipboardHandler;
 import java.util.ArrayList;
 import java.util.List;
 
-interface ITranslate {
-    void OnTranslate();
-}
-
-public class TraductorSoftcatalaActivity extends AppCompatActivity implements ITranslate {
+public class TraductorSoftcatalaActivity extends AppCompatActivity implements ITranslator {
 
     private static final int VOICE_RECOGNITION_REQUEST_CODE = 1714;
 
@@ -136,7 +132,7 @@ public class TraductorSoftcatalaActivity extends AppCompatActivity implements IT
         _targetTextEditor.setText(txt);
     }
 
-    public void OnTranslate() {
+    public void Translate() {
         if (AndroidUtils.checkInternet(this)) {
             _translator.translate(this, _languagePairsHandler.getLanguagePairCode(), _sourceTextEditor.getText().toString());
         } else {
@@ -259,6 +255,6 @@ public class TraductorSoftcatalaActivity extends AppCompatActivity implements IT
         boolean enabled = _voiceRecognition.isLanguageSupported(sourceLanguage);
         _voiceRecognitionButton.setEnabled(enabled);
         _voiceRecognitionButton.setVisibility(enabled == true ? View.VISIBLE : View.GONE);
-        OnTranslate();
+        Translate();
     }
 }

@@ -29,11 +29,11 @@ import java.util.TimerTask;
 
 public class SourceTextEditorWatcher implements TextWatcher {
 
-    private ITranslate _translate;
+    private ITranslator _translator;
     private EditText _sourceTextEditor;
 
-    public SourceTextEditorWatcher(ITranslate translate, EditText sourceTextEditor) {
-        _translate = translate;
+    public SourceTextEditorWatcher(ITranslator translator, EditText sourceTextEditor) {
+        _translator = translator;
         _sourceTextEditor = sourceTextEditor;
     }
 
@@ -87,7 +87,7 @@ public class SourceTextEditorWatcher implements TextWatcher {
                 @Override
                 public void run() {
                     Log.d("softcatala", "Request translation");
-                    _translate.OnTranslate();
+                    _translator.Translate();
                     synchronized (lock) {
                         //prevTextLen = _sourceTextEditor.getText().toString().length();
                         lastCheck = System.currentTimeMillis();
