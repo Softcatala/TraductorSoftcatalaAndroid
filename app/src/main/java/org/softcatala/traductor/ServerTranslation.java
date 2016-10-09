@@ -82,7 +82,13 @@ public class ServerTranslation {
         return sb.toString();
     }
 
-    protected String sendJson(final String langCode, final String text) {
+    public String sendJson(final String langCode, final String text) {
+
+        if (text.isEmpty())
+        {
+            return "";
+        }
+
         HttpClient client = new DefaultHttpClient();
         HttpConnectionParams.setConnectionTimeout(client.getParams(), 10000); //Timeout Limit 
         HttpURLConnection uc = null;
