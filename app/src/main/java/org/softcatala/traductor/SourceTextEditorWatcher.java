@@ -89,7 +89,7 @@ public class SourceTextEditorWatcher implements TextWatcher {
                     Log.d("softcatala", "Request translation");
                     _translator.Translate();
                     synchronized (lock) {
-                        //prevTextLen = _sourceTextEditor.getText().toString().length();
+                        prevTextLen = _sourceTextEditor.getText().toString().length();
                         lastCheck = System.currentTimeMillis();
                     }
                 }
