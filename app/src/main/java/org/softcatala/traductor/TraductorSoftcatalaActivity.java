@@ -52,6 +52,7 @@ import java.util.List;
 public class TraductorSoftcatalaActivity extends AppCompatActivity implements ITranslator {
 
     private static final int VOICE_RECOGNITION_REQUEST_CODE = 1714;
+    private static final int TRANSLATE_EVENT_TIME = 1000 * 60 * 5;
 
     private InfoDialog _infoDialog;
     private ClipboardHandler _clipboardHandler;
@@ -70,6 +71,8 @@ public class TraductorSoftcatalaActivity extends AppCompatActivity implements IT
     private LanguagePairsHandler _languagePairsHandler;
     public Translator _translator;
     private Preferences _preferences;
+    private Analytics _analytics;
+    private long lastTranslationEvent = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -83,11 +86,10 @@ public class TraductorSoftcatalaActivity extends AppCompatActivity implements IT
 
         _voiceRecognitionButton = (ImageButton) findViewById(R.id.voiceButton);
         _languagePairsHandler = new LanguagePairsHandler(this);
+        _analytics = new Analytics(this);
 
         initializeDifferentApi();
-
         loadAdBanner();
-
         loadPreferences();
 
         _messagesHandler = initMessageHandler();
@@ -97,6 +99,7 @@ public class TraductorSoftcatalaActivity extends AppCompatActivity implements IT
         _sharer = new Sharer(this);
 
         configureToolbar();
+        _analytics.SendEvent("AppLoaded", null);
     }
 
     private void configureToolbar() {
@@ -134,7 +137,14 @@ public class TraductorSoftcatalaActivity extends AppCompatActivity implements IT
 
     public void Translate() {
         if (AndroidUtils.checkInternet(this)) {
-            _translator.translate(this, _languagePairsHandler.getLanguagePairCode(), _sourceTextEditor.getText().toString());
+            String text = _sourceTextEditor.getText().toString();
+            _translator.translate(this, _languagePairsHandler.getLanguagePairCode(), text);
+
+            if (System.currentTimeMillis() - lastTranslationEvent > TRANSLATE_EVENT_TIME &&
+                    text.length() > 0) {
+                _analytics.SendEvent("Translated", _languagePairsHandler.getLanguagePairCode());
+                lastTranslationEvent = System.currentTimeMillis();
+            }
         } else {
             _infoDialog.showGenericMessage(DialogInterface.BUTTON_NEUTRAL,
                     this.getString(R.string.NoInternetConnection), this.getString(R.string.OK));
@@ -148,6 +158,7 @@ public class TraductorSoftcatalaActivity extends AppCompatActivity implements IT
         Intent intent = _voiceRecognition.getVoiceRecognitionIntent(sourceLanguage);
 
         startActivityForResult(intent, VOICE_RECOGNITION_REQUEST_CODE);
+        _analytics.SendEvent("VoiceRecognition", sourceLanguage);
     }
 
     @Override
