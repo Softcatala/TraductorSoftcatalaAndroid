@@ -88,9 +88,8 @@ public class AdBanner {
             // Initiate a generic request to load it with an ad
             AdRequest request = new AdRequest.Builder().build();
 
-
             RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) _adView.getLayoutParams();
-            params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+            params.addRule(RelativeLayout.CENTER_IN_PARENT);
             params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 
             _adView.setLayoutParams(params);
