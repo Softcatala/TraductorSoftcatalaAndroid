@@ -75,6 +75,7 @@ public class LanguagePairsHandler implements AdapterView.OnItemSelectedListener,
     public void setLanguage(String language) {
         int position = getPositionFromLangCode(language);
         _languagesSpinner.setSelection(position);
+        _langPairCode = language;
     }
 
     private void setLanguagePairCode(String langPairCode) {
@@ -84,6 +85,11 @@ public class LanguagePairsHandler implements AdapterView.OnItemSelectedListener,
     public String getSourceLanguage() {
         int pos = _langPairCode.indexOf("|");
         return _langPairCode.substring(0, pos);
+    }
+
+    public String getTargetLanguage() {
+        int pos = _langPairCode.indexOf("|");
+        return _langPairCode.substring(pos + 1);
     }
 
     public String getLanguagePairCode() {

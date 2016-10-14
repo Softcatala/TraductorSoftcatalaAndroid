@@ -42,14 +42,14 @@ import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
-
+import android.util.Log;
 import org.softcatala.utils.AndroidUtils;
 import org.softcatala.utils.ClipboardHandler;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TraductorSoftcatalaActivity extends AppCompatActivity implements ITranslator {
+public class TraductorSoftcatalaActivity extends AppCompatActivity implements ITranslator, Speech.OnInitialized {
 
     private static final int VOICE_RECOGNITION_REQUEST_CODE = 1714;
     private static final int TRANSLATE_EVENT_TIME = 1000 * 60 * 5;
@@ -61,10 +61,9 @@ public class TraductorSoftcatalaActivity extends AppCompatActivity implements IT
     // UI components
     private EditText _targetTextEditor;
     private EditText _sourceTextEditor;
-
-    // Voice recognition
     private VoiceRecognition _voiceRecognition;
     private ImageButton _voiceRecognitionButton;
+    private ImageButton _speechButton;
 
     // Functional helper classes
     public Handler _messagesHandler;
@@ -73,6 +72,7 @@ public class TraductorSoftcatalaActivity extends AppCompatActivity implements IT
     private Preferences _preferences;
     private Analytics _analytics;
     private long lastTranslationEvent = 0;
+    private Speech _speech;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -85,6 +85,7 @@ public class TraductorSoftcatalaActivity extends AppCompatActivity implements IT
         _sourceTextEditor.addTextChangedListener(new SourceTextEditorWatcher(this, _sourceTextEditor));
 
         _voiceRecognitionButton = (ImageButton) findViewById(R.id.voiceButton);
+        _speechButton = (ImageButton) findViewById(R.id.speechButton);
         _languagePairsHandler = new LanguagePairsHandler(this);
         _analytics = new Analytics(this);
 
@@ -94,12 +95,10 @@ public class TraductorSoftcatalaActivity extends AppCompatActivity implements IT
 
         _messagesHandler = initMessageHandler();
         _translator = new Translator(_messagesHandler);
-
         _infoDialog = new InfoDialog(this);
         _sharer = new Sharer(this);
 
         configureToolbar();
-        _analytics.SendEvent("AppLoaded", null);
     }
 
     private void configureToolbar() {
@@ -260,6 +259,12 @@ public class TraductorSoftcatalaActivity extends AppCompatActivity implements IT
         _languagePairsHandler.setLanguage(_preferences.getLanguage(_languagePairsHandler.DefaultLanguagePair));
     }
 
+    private void InitSpeech() {
+        String targetLanguage = _languagePairsHandler.getTargetLanguage();
+        _speech = new Speech(this, targetLanguage, this);
+        Log.d("softcatala", "InitSpeech");
+    }
+
     public void OnLanguagePairChanged() {
 
         String sourceLanguage = _languagePairsHandler.getSourceLanguage();
@@ -267,5 +272,25 @@ public class TraductorSoftcatalaActivity extends AppCompatActivity implements IT
         _voiceRecognitionButton.setEnabled(enabled);
         _voiceRecognitionButton.setVisibility(enabled == true ? View.VISIBLE : View.GONE);
         Translate();
+
+        InitSpeech();
+    }
+
+    public void OnSpeech(View v) {
+
+        String targetLanguage = _languagePairsHandler.getTargetLanguage();
+        String text = _targetTextEditor.getText().toString();
+        _speech.Speak(text);
+        _analytics.SendEvent("Speech", targetLanguage);
+    }
+
+    @Override
+    public void OnInit(Speech speech) {
+
+        Log.d("softcatala", "OnInit speech");
+        boolean isLanguageSupported = _speech.IsLanguageSupported();
+        _speechButton.setEnabled(isLanguageSupported);
+        _speechButton.setVisibility(isLanguageSupported == true ? View.VISIBLE : View.GONE);
+
     }
 }
