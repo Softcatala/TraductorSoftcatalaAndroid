@@ -287,6 +287,7 @@ public class TraductorSoftcatalaActivity extends AppCompatActivity implements IT
 
     @Override
     protected void onDestroy() {
+        super.onDestroy();
         if (_speech != null)
             _speech.Close();
     }
