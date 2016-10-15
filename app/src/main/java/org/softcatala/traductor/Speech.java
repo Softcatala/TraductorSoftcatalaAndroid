@@ -80,4 +80,10 @@ public class Speech implements TextToSpeech.OnInitListener {
         Log.d("softcatala", "TTS: " + text + " - lang:" + _locale);
     }
 
+    public void Close() {
+        _tts.stop();
+        _tts.shutdown();
+        Log.d("softcatala", "TTS Closed");
+    }
+
 }

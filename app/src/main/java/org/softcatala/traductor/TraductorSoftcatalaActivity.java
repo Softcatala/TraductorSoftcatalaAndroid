@@ -261,6 +261,9 @@ public class TraductorSoftcatalaActivity extends AppCompatActivity implements IT
 
     private void InitSpeech() {
         String targetLanguage = _languagePairsHandler.getTargetLanguage();
+        if (_speech != null)
+            _speech.Close();
+
         _speech = new Speech(this, targetLanguage, this);
         Log.d("softcatala", "InitSpeech");
     }
@@ -292,5 +295,11 @@ public class TraductorSoftcatalaActivity extends AppCompatActivity implements IT
         _speechButton.setEnabled(isLanguageSupported);
         _speechButton.setVisibility(isLanguageSupported == true ? View.VISIBLE : View.GONE);
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (_speech != null)
+            _speech.Close();
     }
 }
