@@ -61,6 +61,12 @@ public class Speech implements TextToSpeech.OnInitListener {
     }
 
     public boolean IsLanguageSupported() {
+
+        // TTS service returns Catalan as available and actually speaks with an odd voice, however
+        // it not listed as available. TTS language availability seems not be 100% reliable.
+        if (_locale.equals("ca"))
+            return false;
+
         return _initOk && _isLanguageSupported;
     }
 
