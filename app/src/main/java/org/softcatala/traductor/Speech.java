@@ -50,13 +50,18 @@ public class Speech implements TextToSpeech.OnInitListener {
     }
 
     @Override
-    public void onInit(int i) {
-        _initOk = (i == TextToSpeech.SUCCESS);
-        Log.d("softcatala", "onInit success: " + _initOk);
+    public void onInit(int status) {
+        try {
+            _initOk = (status == TextToSpeech.SUCCESS);
+            Log.d("softcatala", "onInit success: " + _initOk);
 
-        if (_initOk)
-            SetLanguageSupported();
-
+            if (_initOk)
+                SetLanguageSupported();
+        }
+        catch (Exception e) {
+            _initOk = false;
+            Log.d("softcatala", "TTS on init error:" + e);
+        }
         _onInitialized.OnInit(this);
     }
 
