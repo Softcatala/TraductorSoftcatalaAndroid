@@ -89,7 +89,6 @@ public class TraductorSoftcatalaActivity extends AppCompatActivity implements IT
         _languagePairsHandler = new LanguagePairsHandler(this);
         _analytics = new Analytics(this);
 
-        initializeDifferentApi();
         loadAdBanner();
         loadPreferences();
 
@@ -97,6 +96,8 @@ public class TraductorSoftcatalaActivity extends AppCompatActivity implements IT
         _translator = new Translator(_messagesHandler);
         _infoDialog = new InfoDialog(this);
         _sharer = new Sharer(this);
+        _clipboardHandler = new ClipboardHandler(this);
+        _voiceRecognition = new VoiceRecognition(this);
 
         configureToolbar();
     }
@@ -208,23 +209,6 @@ public class TraductorSoftcatalaActivity extends AppCompatActivity implements IT
         }
     }
 
-    private void initializeDifferentApi() {
-        if (AndroidUtils.getPlatformVersion() >= 8) {
-            PackageManager pm = getPackageManager();
-            Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-            List<ResolveInfo> activities = pm.queryIntentActivities(intent, 0);
-
-            if (!activities.isEmpty()) {
-                _voiceRecognitionButton.setEnabled(!activities.isEmpty());
-                _voiceRecognition = new VoiceRecognition(this);
-            }
-        } else {
-            _voiceRecognitionButton.setVisibility(View.GONE);
-        }
-        _clipboardHandler = new ClipboardHandler(this);
-
-    }
-
     private void shareTranslation() {
         String text = _targetTextEditor.getText().toString();
 
@@ -268,15 +252,18 @@ public class TraductorSoftcatalaActivity extends AppCompatActivity implements IT
         Log.d("softcatala", "InitSpeech");
     }
 
-    public void OnLanguagePairChanged() {
-
+    public void SetRecognitionButtonVisibility() {
         String sourceLanguage = _languagePairsHandler.getSourceLanguage();
         boolean enabled = _voiceRecognition.isLanguageSupported(sourceLanguage);
         _voiceRecognitionButton.setEnabled(enabled);
         _voiceRecognitionButton.setVisibility(enabled == true ? View.VISIBLE : View.GONE);
-        Translate();
+    }
 
+    public void OnLanguagePairChanged() {
+
+        Translate();
         InitSpeech();
+        SetRecognitionButtonVisibility();
     }
 
     public void OnSpeech(View v) {
@@ -294,7 +281,6 @@ public class TraductorSoftcatalaActivity extends AppCompatActivity implements IT
         boolean isLanguageSupported = _speech.IsLanguageSupported();
         _speechButton.setEnabled(isLanguageSupported);
         _speechButton.setVisibility(isLanguageSupported == true ? View.VISIBLE : View.GONE);
-
     }
 
     @Override

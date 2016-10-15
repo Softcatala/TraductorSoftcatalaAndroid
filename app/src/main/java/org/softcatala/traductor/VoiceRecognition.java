@@ -24,9 +24,14 @@ import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.speech.RecognizerIntent;
+import android.util.Log;
+import android.view.View;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.softcatala.utils.AndroidUtils;
 
@@ -34,6 +39,7 @@ public class VoiceRecognition {
 
     private Context _context;
     private ArrayList<String> _supportedLanguages;
+    private boolean _installed;
 
     // This table maps between Voice Recognition language codes (es-US)
     // to the ones used by Softcatala ("en")
@@ -48,9 +54,18 @@ public class VoiceRecognition {
     public VoiceRecognition(Context context) {
         _context = context;
         _supportedLanguages = new ArrayList<String>();
+        _installed = false;
+        initialize();
         requestLanguagesSupported();
     }
 
+    private void initialize() {
+        PackageManager packageManager = _context.getPackageManager();
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        List<ResolveInfo> activities = packageManager.queryIntentActivities(intent, 0);
+        _installed = !activities.isEmpty();
+        Log.d("softcatala", "VoiceRecognition installed:" + _installed);
+    }
 
     public Intent getVoiceRecognitionIntent(String sourceLanguage) {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
@@ -65,7 +80,10 @@ public class VoiceRecognition {
         return intent;
     }
 
-    boolean isLanguageSupported(String sourceLanguage) {
+    public boolean isLanguageSupported(String sourceLanguage) {
+        if (!_installed)
+            return false;
+
         String lang = getSupportedLangFromSCTranslator(sourceLanguage);
         return lang.isEmpty() == false;
     }
@@ -81,6 +99,9 @@ public class VoiceRecognition {
     }
 
     private void requestLanguagesSupported() {
+        if (!_installed)
+            return;
+
         Intent intent = new Intent(RecognizerIntent.ACTION_GET_LANGUAGE_DETAILS);
 
         _context.sendOrderedBroadcast(intent, null,
@@ -89,7 +110,6 @@ public class VoiceRecognition {
 
     private class HintReceiver extends BroadcastReceiver {
         VoiceRecognition _voiceRegonition;
-
 
         public HintReceiver(VoiceRecognition voiceRegonition) {
             _voiceRegonition = voiceRegonition;
