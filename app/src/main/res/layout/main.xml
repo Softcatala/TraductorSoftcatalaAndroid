@@ -50,7 +50,6 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="@string/EditTextHint">
-
                 <requestFocus></requestFocus>
             </EditText>
 
@@ -84,6 +83,7 @@
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
                 android:onClick="OnSpeech"
+                android:visibility="gone"
                 android:src="@drawable/ic_volume_up_black_24dp" />
         </LinearLayout>
 
