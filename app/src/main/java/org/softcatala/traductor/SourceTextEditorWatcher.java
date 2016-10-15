@@ -59,9 +59,9 @@ public class SourceTextEditorWatcher implements TextWatcher {
     /*
         Cases are supported:
             - When the user is typing only request translation at word boundaries when we have not
-            that for more than 10 seconds
-            - When we have just copied text translated right away
-            - After the user stops typing after less than 3 seconds the translation will be requested
+            done that for more than 10 seconds
+            - When we have just pasted text translate it right away
+            - When the user stops typing after less than 3 seconds the translation will be requested
      */
     @Override
     public void onTextChanged(CharSequence arg0, int start, int before, int count) {
