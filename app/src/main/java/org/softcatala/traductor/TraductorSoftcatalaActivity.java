@@ -28,8 +28,6 @@ import android.support.v7.widget.Toolbar;
 import android.support.v7.app.AppCompatActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -45,9 +43,7 @@ import android.widget.ImageButton;
 import android.util.Log;
 import org.softcatala.utils.AndroidUtils;
 import org.softcatala.utils.ClipboardHandler;
-
 import java.util.ArrayList;
-import java.util.List;
 
 public class TraductorSoftcatalaActivity extends AppCompatActivity implements ITranslator, Speech.OnInitialized {
 
@@ -151,6 +147,10 @@ public class TraductorSoftcatalaActivity extends AppCompatActivity implements IT
         }
     }
 
+    private void ResetTranslationEventTime() {
+        lastTranslationEvent = 0;
+    }
+
     public void OnVoiceRecognition(View v) {
 
         String sourceLanguage = _languagePairsHandler.getSourceLanguage();
@@ -174,6 +174,7 @@ public class TraductorSoftcatalaActivity extends AppCompatActivity implements IT
 
         if (matches.isEmpty() == false) {
             _sourceTextEditor.setText(matches.get(0));
+            ResetTranslationEventTime();
         }
     }
 
@@ -219,6 +220,7 @@ public class TraductorSoftcatalaActivity extends AppCompatActivity implements IT
         String inputText = _clipboardHandler.getText();
         if (inputText != null && inputText.length() > 0) {
             _sourceTextEditor.setText(inputText);
+            ResetTranslationEventTime();
         }
     }
 
