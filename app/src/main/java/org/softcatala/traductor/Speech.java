@@ -21,9 +21,7 @@ package org.softcatala.traductor;
 
 import android.content.Context;
 import android.util.Log;
-
 import java.util.Locale;
-
 import android.speech.tts.TextToSpeech;
 
 
@@ -34,53 +32,74 @@ public class Speech implements TextToSpeech.OnInitListener {
     }
 
     private Context _context;
-    private String _locale;
+    private Locale _locale;
     private TextToSpeech _tts;
     private OnInitialized _onInitialized;
     private boolean _isLanguageSupported;
     private boolean _initOk;
 
-    public Speech(Context context, String locale, OnInitialized onInitialized) {
+    public Speech(Context context, String lang, OnInitialized onInitialized) {
         _context = context;
-        _locale = locale;
+        _locale = getLocalefromSCLanguage(lang);
         _tts = new android.speech.tts.TextToSpeech(_context, this);
         _onInitialized = onInitialized;
         _isLanguageSupported = false;
         _initOk = false;
     }
 
+    private Locale getLocalefromSCLanguage(String lang) {
+
+        try {
+
+            // This predefine the accent for the language. For Spain, we prefer the European one
+            // In the future, this can be a preference for non-EU users
+            if (lang.equals("es"))
+                return new Locale("es", "ES");
+
+            if (lang.equals("pt"))
+                return new Locale("pt", "PT");
+
+            if (lang.equals("en"))
+                return new Locale("en", "GB");
+
+            // TTS service returns Catalan as available and actually speaks with an odd voice, however
+            // it not listed as available. TTS language availability seems not be 100% reliable.
+            if (lang.equals("ca"))
+                return null;
+
+            return new Locale(lang);
+        } catch (Exception e) {
+            Log.e("softcatala", "TTS getLocalefromSCLanguage:" + e);
+            return null;
+        }
+    }
+
     @Override
     public void onInit(int status) {
         try {
-            _initOk = (status == TextToSpeech.SUCCESS);
-            Log.d("softcatala", "onInit success: " + _initOk);
+            _initOk = (_locale != null && status == TextToSpeech.SUCCESS);
+            Log.d("softcatala", "InitOk: " + _initOk);
 
             if (_initOk)
                 SetLanguageSupported();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             _initOk = false;
-            Log.d("softcatala", "TTS on init error:" + e);
+            Log.e("softcatala", "TTS on init error:" + e);
         }
         _onInitialized.OnInit(this);
     }
 
     public boolean IsLanguageSupported() {
 
-        // TTS service returns Catalan as available and actually speaks with an odd voice, however
-        // it not listed as available. TTS language availability seems not be 100% reliable.
-        if (_locale.equals("ca"))
-            return false;
-
         return _initOk && _isLanguageSupported;
     }
 
     private void SetLanguageSupported() {
-        int res = _tts.isLanguageAvailable(new Locale(_locale));
+        int res = _tts.isLanguageAvailable(_locale);
         _isLanguageSupported = (res >= TextToSpeech.LANG_AVAILABLE);
 
         Log.d("softcatala", "IsLanguageSupported " + _locale + ": " + _isLanguageSupported);
-        res = _tts.setLanguage(new Locale(_locale));
+        res = _tts.setLanguage(_locale);
         Log.d("softcatala", "Set property " + _locale + ": " + res);
         Locale locale = _tts.getLanguage();
         Log.d("softcatala", "tts.getLanguage()=" + locale);
@@ -96,5 +115,4 @@ public class Speech implements TextToSpeech.OnInitListener {
         _tts.shutdown();
         Log.d("softcatala", "TTS Closed");
     }
-
 }
