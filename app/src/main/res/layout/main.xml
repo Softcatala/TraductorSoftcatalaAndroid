@@ -8,7 +8,7 @@
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:weightSum="1">
 
@@ -50,6 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="@string/EditTextHint">
+
                 <requestFocus></requestFocus>
             </EditText>
 
@@ -73,8 +74,7 @@
                 android:id="@+id/translatedTextEdit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:editable="false"></EditText>
+                android:layout_weight="1"></EditText>
 
             <ImageButton
                 android:id="@+id/speechButton"
@@ -83,8 +83,8 @@
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
                 android:onClick="OnSpeech"
-                android:visibility="gone"
-                android:src="@drawable/ic_volume_up_black_24dp" />
+                android:src="@drawable/ic_volume_up_black_24dp"
+                android:visibility="gone" />
         </LinearLayout>
 
         <RelativeLayout
