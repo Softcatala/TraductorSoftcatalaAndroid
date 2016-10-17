@@ -28,19 +28,20 @@ import com.google.android.gms.analytics.Tracker;
 
 public class Analytics {
 
-    private final String TRACKER_CODE = "UA-85533675-1";
+    private final String TRACKER_CODE = "UA-85840700-1";
     private static Tracker _tracker;
     Activity _activity;
 
     public Analytics(Activity activity) {
-        _tracker = null;
         _activity = activity;
+        _tracker = getTracker();
     }
 
     synchronized private Tracker getTracker() {
         if (_tracker == null) {
             GoogleAnalytics analytics = GoogleAnalytics.getInstance(_activity);
             _tracker = analytics.newTracker(TRACKER_CODE);
+            _tracker.enableExceptionReporting(true);
         }
         return _tracker;
     }

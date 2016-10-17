@@ -76,6 +76,7 @@ public class TraductorSoftcatalaActivity extends AppCompatActivity implements IT
 
         setContentView(R.layout.main);
 
+        _analytics = new Analytics(this);
         _targetTextEditor = (EditText) findViewById(R.id.translatedTextEdit);
         _sourceTextEditor = (EditText) findViewById(R.id.textToTranslateEdit);
         _sourceTextEditor.addTextChangedListener(new SourceTextEditorWatcher(this, _sourceTextEditor));
@@ -83,7 +84,6 @@ public class TraductorSoftcatalaActivity extends AppCompatActivity implements IT
         _voiceRecognitionButton = (ImageButton) findViewById(R.id.voiceButton);
         _speechButton = (ImageButton) findViewById(R.id.speechButton);
         _languagePairsHandler = new LanguagePairsHandler(this);
-        _analytics = new Analytics(this);
 
         loadAdBanner();
         loadPreferences();
