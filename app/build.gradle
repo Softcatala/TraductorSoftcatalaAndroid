@@ -7,7 +7,7 @@ android {
     defaultConfig {
         applicationId "org.softcatala.traductor"
         minSdkVersion 11
-        targetSdkVersion 11
+        targetSdkVersion 22
     }
 
     buildTypes {
