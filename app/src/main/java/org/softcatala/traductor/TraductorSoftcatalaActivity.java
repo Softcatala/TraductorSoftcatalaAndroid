@@ -96,6 +96,7 @@ public class TraductorSoftcatalaActivity extends AppCompatActivity implements IT
         _voiceRecognition = new VoiceRecognition(this);
 
         configureToolbar();
+        _analytics.SendEvent("AppLoaded", null);
     }
 
     private void configureToolbar() {
