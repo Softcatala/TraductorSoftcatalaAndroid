@@ -60,4 +60,14 @@ public class Analytics {
         Log.d("softcatala", "SendEvent for action: " + action);
     }
 
+    public void SendException(String description) {
+
+        Tracker tracker = getTracker();
+        tracker.send(new HitBuilders.ExceptionBuilder()
+                .setDescription(description)
+                .build());
+
+        Log.d("softcatala", "SendEvent for exception: " + description);
+    }
+
 }
