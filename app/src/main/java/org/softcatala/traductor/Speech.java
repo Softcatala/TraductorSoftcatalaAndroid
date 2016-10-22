@@ -37,14 +37,20 @@ public class Speech implements TextToSpeech.OnInitListener {
     private OnInitialized _onInitialized;
     private boolean _isLanguageSupported;
     private boolean _initOk;
+    private String _language;
 
-    public Speech(Context context, String lang, OnInitialized onInitialized) {
+    public Speech(Context context, String language, OnInitialized onInitialized) {
         _context = context;
-        _locale = getLocalefromSCLanguage(lang);
+        _language = language;
+        _locale = getLocalefromSCLanguage(language);
         _tts = new android.speech.tts.TextToSpeech(_context, this);
         _onInitialized = onInitialized;
         _isLanguageSupported = false;
         _initOk = false;
+    }
+
+    public String GetLanguage() {
+        return _language;
     }
 
     private Locale getLocalefromSCLanguage(String lang) {

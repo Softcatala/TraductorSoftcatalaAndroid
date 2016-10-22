@@ -98,6 +98,7 @@ public class TraductorSoftcatalaActivity extends AppCompatActivity implements IT
         _voiceRecognition = new VoiceRecognition(this);
 
         configureToolbar();
+        InitSpeech();
         _analytics.SendEvent("AppLoaded", null);
     }
 
@@ -250,6 +251,12 @@ public class TraductorSoftcatalaActivity extends AppCompatActivity implements IT
 
     private void InitSpeech() {
         String targetLanguage = _languagePairsHandler.getTargetLanguage();
+
+        if (_speech != null && targetLanguage.equals(_speech.GetLanguage())) {
+            Log.d("softcatala", "Already init");
+            return;
+        }
+
         if (_speech != null)
             _speech.Close();
 
