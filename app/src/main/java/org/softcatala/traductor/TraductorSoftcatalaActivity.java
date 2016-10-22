@@ -41,8 +41,10 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.util.Log;
+
 import org.softcatala.utils.AndroidUtils;
 import org.softcatala.utils.ClipboardHandler;
+
 import java.util.ArrayList;
 
 public class TraductorSoftcatalaActivity extends AppCompatActivity implements ITranslator, Speech.OnInitialized {
@@ -79,7 +81,7 @@ public class TraductorSoftcatalaActivity extends AppCompatActivity implements IT
         _analytics = new Analytics(this);
         _targetTextEditor = (EditText) findViewById(R.id.translatedTextEdit);
         _sourceTextEditor = (EditText) findViewById(R.id.textToTranslateEdit);
-        _sourceTextEditor.addTextChangedListener(new SourceTextEditorWatcher(this, _sourceTextEditor));
+        _sourceTextEditor.addTextChangedListener(new SourceTextEditorWatcher(this, this, _sourceTextEditor));
 
         _voiceRecognitionButton = (ImageButton) findViewById(R.id.voiceButton);
         _speechButton = (ImageButton) findViewById(R.id.speechButton);

@@ -19,6 +19,7 @@
 
 package org.softcatala.traductor;
 
+import android.app.Activity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -31,8 +32,10 @@ public class SourceTextEditorWatcher implements TextWatcher {
 
     private ITranslator _translator;
     private EditText _sourceTextEditor;
+    private Activity _activity;
 
-    public SourceTextEditorWatcher(ITranslator translator, EditText sourceTextEditor) {
+    public SourceTextEditorWatcher(Activity activity, ITranslator translator, EditText sourceTextEditor) {
+        _activity = activity;
         _translator = translator;
         _sourceTextEditor = sourceTextEditor;
     }
@@ -86,12 +89,16 @@ public class SourceTextEditorWatcher implements TextWatcher {
             timerTask = new TimerTask() {
                 @Override
                 public void run() {
-                    Log.d("softcatala", "Request translation");
-                    _translator.Translate();
-                    synchronized (lock) {
-                        prevTextLen = _sourceTextEditor.getText().toString().length();
-                        lastCheck = System.currentTimeMillis();
-                    }
+                    _activity.runOnUiThread(new Runnable() {
+                        public void run() {
+                            Log.d("softcatala", "Request translation");
+                            _translator.Translate();
+                            synchronized (lock) {
+                                prevTextLen = _sourceTextEditor.getText().toString().length();
+                                lastCheck = System.currentTimeMillis();
+                            }
+                        }
+                    });
                 }
             };
 
