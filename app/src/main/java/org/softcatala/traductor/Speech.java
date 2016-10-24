@@ -19,6 +19,7 @@
 
 package org.softcatala.traductor;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import java.util.Locale;
@@ -31,6 +32,19 @@ public class Speech implements TextToSpeech.OnInitListener {
         void OnInit(Speech speech);
     }
 
+    private class RunnableWithParam implements Runnable {
+        private OnInitialized _onInitialized;
+        private Speech _speech;
+        public RunnableWithParam(Speech speech, OnInitialized onInitialized) {
+            _speech = speech;
+            this._onInitialized = onInitialized;
+        }
+
+        public void run() {
+            this._onInitialized.OnInit(_speech);
+        }
+    }
+
     private Context _context;
     private Locale _locale;
     private TextToSpeech _tts;
@@ -38,9 +52,11 @@ public class Speech implements TextToSpeech.OnInitListener {
     private boolean _isLanguageSupported;
     private boolean _initOk;
     private String _language;
+    private Activity _activity;
 
-    public Speech(Context context, String language, OnInitialized onInitialized) {
-        _context = context;
+    public Speech(Activity activity, String language, OnInitialized onInitialized) {
+        _activity = activity;
+        _context = _activity;
         _language = language;
         _locale = getLocalefromSCLanguage(language);
         _tts = new android.speech.tts.TextToSpeech(_context, this);
@@ -92,7 +108,7 @@ public class Speech implements TextToSpeech.OnInitListener {
             _initOk = false;
             Log.e("softcatala", "TTS on init error:" + e);
         }
-        _onInitialized.OnInit(this);
+        _activity.runOnUiThread(new RunnableWithParam(this, _onInitialized));
     }
 
     public boolean IsLanguageSupported() {
