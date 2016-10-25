@@ -110,6 +110,7 @@ public class AdBanner {
         });
     }
 
+    // This returns false for other Stores (like F-Droid, etc)
     private boolean IsPlayStoreVersion() {
         return _fingerPrint.equals(GetSignatureFingerPrint());
     }
