@@ -41,7 +41,9 @@ public class Speech implements TextToSpeech.OnInitListener {
         }
 
         public void run() {
-            this._onInitialized.OnInit(_speech);
+            /* In production this produces null exceptions. We were unable to determine why */
+            if (this._onInitialized != null && _speech != null)
+                this._onInitialized.OnInit(_speech);
         }
     }
 
@@ -108,7 +110,11 @@ public class Speech implements TextToSpeech.OnInitListener {
             _initOk = false;
             Log.e("softcatala", "TTS on init error:" + e);
         }
-        _activity.runOnUiThread(new RunnableWithParam(this, _onInitialized));
+        try {
+            _activity.runOnUiThread(new RunnableWithParam(this, _onInitialized));
+        }catch (Exception e) {
+            Log.e("softcatala", "TTS OnInit notification" + e);
+        }
     }
 
     public boolean IsLanguageSupported() {
