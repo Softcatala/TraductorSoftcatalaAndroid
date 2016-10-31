@@ -180,7 +180,8 @@ public class Speech extends UtteranceProgressListener implements TextToSpeech.On
 
     @Override
     public void onStart(String s) {
-
+        _talking = true;
+        _activity.runOnUiThread(new RunnableWithParam(this,_onInitialized, EventType.Start));
     }
 
     @Override

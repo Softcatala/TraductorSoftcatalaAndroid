@@ -284,6 +284,7 @@ public class TraductorSoftcatalaActivity extends AppCompatActivity implements IT
         String text = _targetTextEditor.getText().toString();
         if (_speech.IsTalking()) {
             _speech.Stop();
+            _speechButton.setImageResource(R.drawable.ic_volume_up_black_24dp);
         }
         else {
             _speech.Speak(text);
@@ -302,12 +303,14 @@ public class TraductorSoftcatalaActivity extends AppCompatActivity implements IT
 
     @Override
     public void Start() {
+        _speechButton.setImageResource(R.drawable.ic_volume_off_black_24dp);
         Log.d("softcatala", "Speech start");
 
     }
 
     @Override
     public void Stop() {
+        _speechButton.setImageResource(R.drawable.ic_volume_up_black_24dp);
         Log.d("softcatala", "Speech end");
     }
 
