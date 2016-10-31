@@ -54,10 +54,11 @@ public class Speech extends UtteranceProgressListener implements TextToSpeech.On
         }
 
         public void run() {
-
             switch (this._eventType){
                 case Init:
-                    this._onInitialized.OnInit(_speech);
+                     /* In production this produces null exceptions. We were unable to determine why */
+                    if (this._onInitialized != null && _speech != null)
+                        this._onInitialized.OnInit(_speech);
                     break;
                 case Start:
                     this._onInitialized.Start();
@@ -134,7 +135,11 @@ public class Speech extends UtteranceProgressListener implements TextToSpeech.On
             _initOk = false;
             Log.e("softcatala", "TTS on init error:" + e);
         }
-        _activity.runOnUiThread(new RunnableWithParam(this,_onInitialized, EventType.Init));
+        try {
+            _activity.runOnUiThread(new RunnableWithParam(this, _onInitialized, EventType.Init));
+        }catch (Exception e) {
+            Log.e("softcatala", "TTS OnInit notification" + e);
+        }
     }
 
     public boolean IsLanguageSupported() {
@@ -174,10 +179,12 @@ public class Speech extends UtteranceProgressListener implements TextToSpeech.On
     }
 
     @Override
-    public void onStart(String s)
+    public void onStart(String s) {
+
+    }
 
     @Override
-    public void onDone(String s         9) {
+    public void onDone(String s) {
         _talking = false;
         _activity.runOnUiThread(new RunnableWithParam(this,_onInitialized, EventType.Stop));
     }
