@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <EditText
+            <org.softcatala.traductor.ClearableEditText
                 android:id="@+id/textToTranslateEdit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -52,7 +52,7 @@
                 android:hint="@string/EditTextHint">
 
                 <requestFocus></requestFocus>
-            </EditText>
+            </org.softcatala.traductor.ClearableEditText>
 
             <ImageButton
                 android:id="@+id/voiceButton"
@@ -74,8 +74,8 @@
                 android:id="@+id/translatedTextEdit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:editable="false"
-                android:layout_weight="1"></EditText>
+                android:layout_weight="1"
+                android:editable="false"></EditText>
 
             <ImageButton
                 android:id="@+id/speechButton"
