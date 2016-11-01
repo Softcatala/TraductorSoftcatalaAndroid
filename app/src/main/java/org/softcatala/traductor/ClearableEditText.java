@@ -55,11 +55,8 @@ public class ClearableEditText extends EditText implements OnTouchListener, OnFo
 
         @Override
         public void afterTextChanged(Editable editable) {
-
         }
     }
-
-    private int RIGHT = 2;
 
     public ClearableEditText(Context context) {
         super(context);
@@ -77,6 +74,7 @@ public class ClearableEditText extends EditText implements OnTouchListener, OnFo
     }
 
     private Drawable _drawable;
+    private int RIGHT = 2;
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
@@ -139,7 +137,7 @@ public class ClearableEditText extends EditText implements OnTouchListener, OnFo
         _drawable = getResources().getDrawable(R.drawable.ic_clear_black_18dp);
         _drawable.setBounds(0, 0, _drawable.getIntrinsicWidth(), _drawable.getIntrinsicHeight());
         Drawable originalIcon = _drawable;
-        _drawable =  convertDrawableToGrayScale(originalIcon);
+        _drawable = convertDrawableToGrayScale(originalIcon);
 
         int min = getPaddingTop() + _drawable.getIntrinsicHeight() + getPaddingBottom();
         if (getSuggestedMinimumHeight() < min) {
