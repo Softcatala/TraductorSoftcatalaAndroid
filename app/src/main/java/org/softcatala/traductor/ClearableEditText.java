@@ -21,8 +21,10 @@
 
 package org.softcatala.traductor;
 
-
 import android.content.Context;
+import android.graphics.Color;
+
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -131,8 +133,8 @@ public class ClearableEditText extends EditText implements OnTouchListener, OnFo
     }
 
     public void setClearIconVisibleIfThereIsText() {
-        String s = getText().toString();
-        setClearIconVisible(isNotEmpty(s));
+        String text = getText().toString();
+        setClearIconVisible(!text.isEmpty());
     }
 
     @Override
@@ -145,10 +147,6 @@ public class ClearableEditText extends EditText implements OnTouchListener, OnFo
         if (f != null) {
             f.onFocusChange(v, hasFocus);
         }
-    }
-
-    private boolean isNotEmpty(String text) {
-        return text.isEmpty() == false;
     }
 
     @Override
@@ -165,15 +163,24 @@ public class ClearableEditText extends EditText implements OnTouchListener, OnFo
         setClearIconVisible(false);
     }
 
+    public static Drawable convertDrawableToGrayScale(Drawable drawable) {
+        if (drawable == null)
+            return null;
+
+        Drawable res = drawable.mutate();
+        res.setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_IN);
+        return res;
+    }
+
     private void initIcon() {
-        xD = null;
-        if (loc != null) {
-            xD = getCompoundDrawables()[loc.idx];
-        }
-        if (xD == null) {
-            xD = getResources().getDrawable(android.R.drawable.presence_offline);
-        }
+
+        xD = getResources().getDrawable(R.drawable.ic_clear_black_18dp);
         xD.setBounds(0, 0, xD.getIntrinsicWidth(), xD.getIntrinsicHeight());
+
+        Drawable originalIcon = xD;
+        Drawable icon =  convertDrawableToGrayScale(originalIcon);
+        xD = icon;
+
         int min = getPaddingTop() + xD.getIntrinsicHeight() + getPaddingBottom();
         if (getSuggestedMinimumHeight() < min) {
             setMinimumHeight(min);
