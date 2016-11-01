@@ -59,19 +59,7 @@ public class ClearableEditText extends EditText implements OnTouchListener, OnFo
         }
     }
 
-    public static enum Location {
-        LEFT(0), RIGHT(2);
-
-        final int idx;
-
-        private Location(int idx) {
-            this.idx = idx;
-        }
-    }
-
-    public interface Listener {
-        void didClearText();
-    }
+    private int RIGHT = 2;
 
     public ClearableEditText(Context context) {
         super(context);
@@ -88,46 +76,23 @@ public class ClearableEditText extends EditText implements OnTouchListener, OnFo
         init();
     }
 
-    @Override
-    public void setOnTouchListener(OnTouchListener l) {
-        this.l = l;
-    }
-
-    @Override
-    public void setOnFocusChangeListener(OnFocusChangeListener f) {
-        this.f = f;
-    }
-
-    private Location loc = Location.RIGHT;
-
-    private Drawable xD;
-    private Listener listener;
-
-    private OnTouchListener l;
-    private OnFocusChangeListener f;
+    private Drawable _drawable;
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        if (getDisplayedDrawable() != null) {
-            int x = (int) event.getX();
-            int y = (int) event.getY();
 
-            int left = getWidth() - getPaddingRight() - xD.getIntrinsicWidth();
-            int right = getWidth();
+        int x = (int) event.getX();
+        int y = (int) event.getY();
 
-            boolean tappedX = x >= left && x <= right && y >= 0 && y <= (getBottom() - getTop());
-            if (tappedX) {
-                if (event.getAction() == MotionEvent.ACTION_UP) {
-                    setText("");
-                    if (listener != null) {
-                        listener.didClearText();
-                    }
-                }
-                return true;
+        int left = getWidth() - getPaddingRight() - _drawable.getIntrinsicWidth();
+        int right = getWidth();
+
+        boolean tappedX = x >= left && x <= right && y >= 0 && y <= (getBottom() - getTop());
+        if (tappedX) {
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                setText("");
             }
-        }
-        if (l != null) {
-            return l.onTouch(v, event);
+            return true;
         }
         return false;
     }
@@ -143,9 +108,6 @@ public class ClearableEditText extends EditText implements OnTouchListener, OnFo
             setClearIconVisibleIfThereIsText();
         } else {
             setClearIconVisible(false);
-        }
-        if (f != null) {
-            f.onFocusChange(v, hasFocus);
         }
     }
 
@@ -174,29 +136,23 @@ public class ClearableEditText extends EditText implements OnTouchListener, OnFo
 
     private void initIcon() {
 
-        xD = getResources().getDrawable(R.drawable.ic_clear_black_18dp);
-        xD.setBounds(0, 0, xD.getIntrinsicWidth(), xD.getIntrinsicHeight());
+        _drawable = getResources().getDrawable(R.drawable.ic_clear_black_18dp);
+        _drawable.setBounds(0, 0, _drawable.getIntrinsicWidth(), _drawable.getIntrinsicHeight());
+        Drawable originalIcon = _drawable;
+        _drawable =  convertDrawableToGrayScale(originalIcon);
 
-        Drawable originalIcon = xD;
-        Drawable icon =  convertDrawableToGrayScale(originalIcon);
-        xD = icon;
-
-        int min = getPaddingTop() + xD.getIntrinsicHeight() + getPaddingBottom();
+        int min = getPaddingTop() + _drawable.getIntrinsicHeight() + getPaddingBottom();
         if (getSuggestedMinimumHeight() < min) {
             setMinimumHeight(min);
         }
     }
 
-    private Drawable getDisplayedDrawable() {
-        return (loc != null) ? getCompoundDrawables()[loc.idx] : null;
-    }
-
     protected void setClearIconVisible(boolean visible) {
         Drawable[] cd = getCompoundDrawables();
-        Drawable displayed = getDisplayedDrawable();
+        Drawable displayed = getCompoundDrawables()[RIGHT];
         boolean wasVisible = (displayed != null);
         if (visible != wasVisible) {
-            Drawable x = visible ? xD : null;
+            Drawable x = visible ? _drawable : null;
             super.setCompoundDrawables(cd[0], cd[1], x, cd[3]);
         }
     }
