@@ -282,8 +282,14 @@ public class TraductorSoftcatalaActivity extends AppCompatActivity implements IT
 
         String targetLanguage = _languagePairsHandler.getTargetLanguage();
         String text = _targetTextEditor.getText().toString();
-        _speech.Speak(text);
-        _analytics.SendEvent("Speech", targetLanguage);
+        if (_speech.IsTalking()) {
+            _speech.Stop();
+            _speechButton.setImageResource(R.drawable.ic_volume_up_black_24dp);
+        }
+        else {
+            _speech.Speak(text);
+            _analytics.SendEvent("Speech", targetLanguage);
+        }
     }
 
     @Override
@@ -293,6 +299,19 @@ public class TraductorSoftcatalaActivity extends AppCompatActivity implements IT
         boolean isLanguageSupported = _speech.IsLanguageSupported();
         _speechButton.setEnabled(isLanguageSupported);
         _speechButton.setVisibility(isLanguageSupported == true ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    public void Start() {
+        _speechButton.setImageResource(R.drawable.ic_volume_off_black_24dp);
+        Log.d("softcatala", "Speech start");
+
+    }
+
+    @Override
+    public void Stop() {
+        _speechButton.setImageResource(R.drawable.ic_volume_up_black_24dp);
+        Log.d("softcatala", "Speech end");
     }
 
     @Override
