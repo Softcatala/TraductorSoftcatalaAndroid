@@ -22,13 +22,16 @@ package org.softcatala.traductor;
 import android.app.Activity;
 import android.util.Log;
 
+import com.google.android.gms.analytics.ExceptionReporter;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.StandardExceptionParser;
 import com.google.android.gms.analytics.Tracker;
 
 public class Analytics {
 
     private final String TRACKER_CODE = "UA-85840700-1";
+    private final String TRACKER_CODE_DEBUG = "UA-86221143-1";
     private static Tracker _tracker;
     Activity _activity;
 
@@ -40,8 +43,8 @@ public class Analytics {
     synchronized private Tracker getTracker() {
         if (_tracker == null) {
             GoogleAnalytics analytics = GoogleAnalytics.getInstance(_activity);
-            _tracker = analytics.newTracker(TRACKER_CODE);
-            _tracker.enableExceptionReporting(true);
+            _tracker = analytics.newTracker(BuildConfig.DEBUG ? TRACKER_CODE_DEBUG : TRACKER_CODE);
+            SetUpUncaughtExceptionHandler();
         }
         return _tracker;
     }
@@ -68,6 +71,26 @@ public class Analytics {
                 .build());
 
         Log.d("softcatala", "SendEvent for exception: " + description);
+    }
+
+    private void SetUpUncaughtExceptionHandler() {
+
+        ExceptionReporter handler =
+                new ExceptionReporter(getTracker(),
+                        Thread.getDefaultUncaughtExceptionHandler(),
+                        _activity);
+
+        StandardExceptionParser exceptionParser =
+                new StandardExceptionParser(_activity, null) {
+                    @Override
+                    public String getDescription(String threadName, Throwable t) {
+                        String description = "{" + threadName + "} " + Log.getStackTraceString(t);
+                        return description;
+                    }
+                };
+
+        handler.setExceptionParser(exceptionParser);
+        Thread.setDefaultUncaughtExceptionHandler(handler);
     }
 
 }
