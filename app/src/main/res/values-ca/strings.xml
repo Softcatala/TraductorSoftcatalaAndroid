@@ -33,5 +33,5 @@
     <string name="Share">Comparteix</string>
     <string name="ShareVia">Comparteix mitjançant</string>
     <string name="SiteProject">Web del projecte</string>
-    <string name="AboutText">Basat en la tecnologia d’Apertium i ScaleMT, dissenyats pel Grup Transducens del Departament de Llenguatges i Sistemes Informàtics de la Universitat d’Alacant, i desenvolupats sota les llicències lliures GPL i AGPL, respectivament.</string>
+    <string name="AboutText">Basat en la tecnologia d’Apertium i ScaleMT, dissenyats pel Grup Transducens del Departament de Llenguatges i Sistemes Informàtics de la Universitat d’Alacant, i desenvolupats sota les llicències lliures GPL i AGPL, respectivament.\n\Síntesi de la veu en català proveïda pel projecte Festival desenvolupat pel Centre for Speech Technology Research (CSTR) de la University of Edinburgh. La veu en català ha estat desenvolupada pel centre TALP de la Universitat Politècnica de Catalunya.</string>
 </resources>
