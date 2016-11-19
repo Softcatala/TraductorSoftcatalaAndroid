@@ -33,5 +33,5 @@
     <string name="Share">Share</string>
     <string name="ShareVia">Share via</string>
     <string name="SiteProject">Project webpage</string>
-    <string name="AboutText">Based on technology of Apertium and ScaleMT, designed by Transducens Group, from the Department of Software and Computing Systems at Universitat d’Alacant, and developed under free GPL and AGPL licenses, respectively.</string>
+    <string name="AboutText">Based on technology of Apertium and ScaleMT, designed by Transducens Group, from the Department of Software and Computing Systems at Universitat d’Alacant, and developed under free GPL and AGPL licenses, respectively.\n\nCatalan Speech synthesis provided by the Festival project desenvoped at Centre for Speech Technology Research (CSTR) of the University of Edinburgh. The Catalan voice has been developed by the TALP centre at Universitat Politècnica de Catalunya.</string>
 </resources>

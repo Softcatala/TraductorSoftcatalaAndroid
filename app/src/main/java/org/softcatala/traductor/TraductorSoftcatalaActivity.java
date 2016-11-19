@@ -42,12 +42,18 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.util.Log;
 
+import org.softcatala.traductor.Speech.ISpeech;
+import org.softcatala.traductor.Speech.OnInitialized;
+import org.softcatala.traductor.Speech.SpeechAndroid;
+import org.softcatala.traductor.Speech.SpeechFactory;
 import org.softcatala.utils.AndroidUtils;
 import org.softcatala.utils.ClipboardHandler;
-
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
-public class TraductorSoftcatalaActivity extends AppCompatActivity implements ITranslator, Speech.OnInitialized {
+
+public class TraductorSoftcatalaActivity extends AppCompatActivity implements ITranslator, OnInitialized {
 
     private static final int VOICE_RECOGNITION_REQUEST_CODE = 1714;
     private static final int TRANSLATE_EVENT_TIME = 1000 * 60 * 5;
@@ -70,7 +76,7 @@ public class TraductorSoftcatalaActivity extends AppCompatActivity implements IT
     private Preferences _preferences;
     private Analytics _analytics;
     private long lastTranslationEvent = 0;
-    private Speech _speech;
+    private ISpeech _speech;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -260,7 +266,7 @@ public class TraductorSoftcatalaActivity extends AppCompatActivity implements IT
         if (_speech != null)
             _speech.Close();
 
-        _speech = new Speech(this, targetLanguage, this);
+        _speech = SpeechFactory.Get(this, targetLanguage, this);
         Log.d("softcatala", "InitSpeech");
     }
 
@@ -278,7 +284,8 @@ public class TraductorSoftcatalaActivity extends AppCompatActivity implements IT
         SetRecognitionButtonVisibility();
     }
 
-    public void OnSpeech(View v) {
+
+    public void OnSpeech(View v){
 
         String targetLanguage = _languagePairsHandler.getTargetLanguage();
         String text = _targetTextEditor.getText().toString();
@@ -293,10 +300,10 @@ public class TraductorSoftcatalaActivity extends AppCompatActivity implements IT
     }
 
     @Override
-    public void OnInit(Speech speech) {
+    public void OnInit(ISpeech speech) {
 
         Log.d("softcatala", "OnInit speech");
-        boolean isLanguageSupported = _speech.IsLanguageSupported();
+        boolean isLanguageSupported = speech.IsLanguageSupported();
         _speechButton.setEnabled(isLanguageSupported);
         _speechButton.setVisibility(isLanguageSupported == true ? View.VISIBLE : View.GONE);
     }

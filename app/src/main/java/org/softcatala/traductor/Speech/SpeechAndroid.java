@@ -17,7 +17,7 @@
  * Boston, MA 02111-1307, USA.
  */
 
-package org.softcatala.traductor;
+package org.softcatala.traductor.Speech;
 
 import android.app.Activity;
 import android.content.Context;
@@ -28,47 +28,11 @@ import java.util.HashMap;
 import java.util.Locale;
 import android.speech.tts.TextToSpeech;
 
+import org.softcatala.traductor.Speech.ISpeech;
+import org.softcatala.traductor.Speech.OnInitialized;
 
-public class Speech extends UtteranceProgressListener implements TextToSpeech.OnInitListener {
 
-    public interface OnInitialized {
-        void OnInit(Speech speech);
-        void Start();
-        void Stop();
-    }
-
-    private enum EventType {
-        Init,
-        Start,
-        Stop
-    }
-
-    private class RunnableWithParam implements Runnable {
-        private OnInitialized _onInitialized;
-        private Speech _speech;
-        private EventType _eventType;
-        public RunnableWithParam(Speech speech, OnInitialized onInitialized, EventType eventType) {
-            _speech = speech;
-            this._onInitialized = onInitialized;
-            this._eventType = eventType;
-        }
-
-        public void run() {
-            switch (this._eventType){
-                case Init:
-                     /* In production this produces null exceptions. We were unable to determine why */
-                    if (this._onInitialized != null && _speech != null)
-                        this._onInitialized.OnInit(_speech);
-                    break;
-                case Start:
-                    this._onInitialized.Start();
-                    break;
-                case Stop:
-                    this._onInitialized.Stop();
-                    break;
-            }
-        }
-    }
+public class SpeechAndroid extends UtteranceProgressListener implements TextToSpeech.OnInitListener, ISpeech {
 
     private Context _context;
     private Locale _locale;
@@ -80,7 +44,7 @@ public class Speech extends UtteranceProgressListener implements TextToSpeech.On
     private Activity _activity;
     private boolean _talking;
 
-    public Speech(Activity activity, String language, OnInitialized onInitialized) {
+    public SpeechAndroid(Activity activity, String language, OnInitialized onInitialized) {
         _activity = activity;
         _context = _activity;
         _language = language;
@@ -136,7 +100,7 @@ public class Speech extends UtteranceProgressListener implements TextToSpeech.On
             Log.e("softcatala", "TTS on init error:" + e);
         }
         try {
-            _activity.runOnUiThread(new RunnableWithParam(this, _onInitialized, EventType.Init));
+            _activity.runOnUiThread(new RunnableWithParam(this, _onInitialized, OnInitialized.EventType.Init));
         }catch (Exception e) {
             Log.e("softcatala", "TTS OnInit notification" + e);
         }
@@ -181,13 +145,13 @@ public class Speech extends UtteranceProgressListener implements TextToSpeech.On
     @Override
     public void onStart(String s) {
         _talking = true;
-        _activity.runOnUiThread(new RunnableWithParam(this,_onInitialized, EventType.Start));
+        _activity.runOnUiThread(new RunnableWithParam(this,_onInitialized, OnInitialized.EventType.Start));
     }
 
     @Override
     public void onDone(String s) {
         _talking = false;
-        _activity.runOnUiThread(new RunnableWithParam(this,_onInitialized, EventType.Stop));
+        _activity.runOnUiThread(new RunnableWithParam(this,_onInitialized, OnInitialized.EventType.Stop));
     }
 
     @Override
