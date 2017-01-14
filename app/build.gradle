@@ -21,7 +21,7 @@ android {
 }
 
 dependencies {
-    compile 'com.google.android.gms:play-services-ads:9.4.0'
+    compile 'com.google.android.gms:play-services-ads:10.0.1'
     compile "com.android.support:appcompat-v7:22.1.+"
-    compile 'com.google.android.gms:play-services-analytics:9.4.0'
+    compile 'com.google.android.gms:play-services-analytics:10.0.1'
 }
