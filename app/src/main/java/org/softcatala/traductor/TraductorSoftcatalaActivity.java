@@ -44,12 +44,9 @@ import android.util.Log;
 
 import org.softcatala.traductor.Speech.ISpeech;
 import org.softcatala.traductor.Speech.OnInitialized;
-import org.softcatala.traductor.Speech.SpeechAndroid;
 import org.softcatala.traductor.Speech.SpeechFactory;
 import org.softcatala.utils.AndroidUtils;
 import org.softcatala.utils.ClipboardHandler;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 
 
