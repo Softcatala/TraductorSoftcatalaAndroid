@@ -29,10 +29,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.net.UnknownHostException;
-
-import org.apache.http.client.HttpClient;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.HttpConnectionParams;
 import org.json.JSONObject;
 
 public class ServerTranslation {
@@ -89,8 +85,6 @@ public class ServerTranslation {
             return "";
         }
 
-        HttpClient client = new DefaultHttpClient();
-        HttpConnectionParams.setConnectionTimeout(client.getParams(), 10000); //Timeout Limit 
         HttpURLConnection uc = null;
 
         try {
