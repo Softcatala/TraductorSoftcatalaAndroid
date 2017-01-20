@@ -149,8 +149,10 @@ public class TraductorSoftcatalaActivity extends AppCompatActivity implements IT
                 lastTranslationEvent = System.currentTimeMillis();
             }
         } else {
-            _infoDialog.showGenericMessage(DialogInterface.BUTTON_NEUTRAL,
-                    this.getString(R.string.NoInternetConnection), this.getString(R.string.OK));
+            if (!isFinishing()) {
+                _infoDialog.showGenericMessage(DialogInterface.BUTTON_NEUTRAL,
+                        this.getString(R.string.NoInternetConnection), this.getString(R.string.OK));
+            }
         }
     }
 
