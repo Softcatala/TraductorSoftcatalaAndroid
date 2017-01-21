@@ -23,9 +23,6 @@
     <string name="NoInternetConnection">"There is no internet connection available.\nA connection is required to perform the translation."</string>
     <string name="Preferences">Preferences</string>
     <string name="About">About</string>
-    <string name="Remember">Remember</string>
-    <string name="DefaultLanguage">Default language</string>
-    <string name="RememberSummary">Remember last selected options</string>
     <string name="UrlSite">https://www.softcatala.org/projectes/traductor/</string>
     <string name="AboutVersion">Version</string>
     <string name="Pastesource">Paste the original text</string>
