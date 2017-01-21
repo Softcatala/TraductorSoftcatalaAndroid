@@ -28,9 +28,6 @@ import java.util.HashMap;
 import java.util.Locale;
 import android.speech.tts.TextToSpeech;
 
-import org.softcatala.traductor.Speech.ISpeech;
-import org.softcatala.traductor.Speech.OnInitialized;
-
 
 public class SpeechAndroid extends UtteranceProgressListener implements TextToSpeech.OnInitListener, ISpeech {
 
@@ -64,7 +61,7 @@ public class SpeechAndroid extends UtteranceProgressListener implements TextToSp
 
         try {
 
-            // This predefine the accent for the language. For Spain, we prefer the European one
+            // This defines the accent for the language. For Spain, we prefer the European one
             // In the future, this can be a preference for non-EU users
             if (lang.equals("es"))
                 return new Locale("es", "ES");
@@ -118,8 +115,6 @@ public class SpeechAndroid extends UtteranceProgressListener implements TextToSp
         Log.d("softcatala", "IsLanguageSupported " + _locale + ": " + _isLanguageSupported);
         res = _tts.setLanguage(_locale);
         Log.d("softcatala", "Set property " + _locale + ": " + res);
-        Locale locale = _tts.getLanguage();
-        Log.d("softcatala", "tts.getLanguage()=" + locale);
     }
 
     public void Speak(String text) {
