@@ -69,7 +69,6 @@ public class AdBanner {
         setupCustomBanner();
 
         _isPlayStoreVersion = IsPlayStoreVersion() || BuildConfig.DEBUG;
-
         if (_layout == null) {
             return;
         }
