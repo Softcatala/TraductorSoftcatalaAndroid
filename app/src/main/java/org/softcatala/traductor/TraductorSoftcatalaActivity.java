@@ -60,7 +60,7 @@ public class TraductorSoftcatalaActivity extends AppCompatActivity implements IT
     private Sharer _sharer;
 
     // UI components
-    private EditText _targetTextEditor;
+    private UnknownColoredWordsEditText _targetTextEditor;
     private EditText _sourceTextEditor;
     private VoiceRecognition _voiceRecognition;
     private ImageButton _voiceRecognitionButton;
@@ -82,7 +82,7 @@ public class TraductorSoftcatalaActivity extends AppCompatActivity implements IT
         setContentView(R.layout.main);
 
         _analytics = new Analytics(this);
-        _targetTextEditor = (EditText) findViewById(R.id.translatedTextEdit);
+        _targetTextEditor = findViewById(R.id.translatedTextEdit);
         _sourceTextEditor = (EditText) findViewById(R.id.textToTranslateEdit);
         _sourceTextEditor.addTextChangedListener(new SourceTextEditorWatcher(this, this, _sourceTextEditor));
 
@@ -134,8 +134,9 @@ public class TraductorSoftcatalaActivity extends AppCompatActivity implements IT
         };
     }
 
+
     public void setTranslatedText(String txt) {
-        _targetTextEditor.setText(txt);
+        _targetTextEditor.setColoredText(txt);
     }
 
     public void Translate() {
