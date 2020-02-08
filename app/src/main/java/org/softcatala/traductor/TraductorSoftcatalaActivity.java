@@ -83,6 +83,8 @@ public class TraductorSoftcatalaActivity extends AppCompatActivity implements IT
 
         _analytics = new Analytics(this);
         _targetTextEditor = findViewById(R.id.translatedTextEdit);
+        _targetTextEditor.setTextIsSelectable(true);
+        _targetTextEditor.setKeyListener(null);
         _sourceTextEditor = (EditText) findViewById(R.id.textToTranslateEdit);
         _sourceTextEditor.addTextChangedListener(new SourceTextEditorWatcher(this, this, _sourceTextEditor));
 

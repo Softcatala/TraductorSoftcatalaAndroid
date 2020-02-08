@@ -74,8 +74,7 @@
                 android:id="@+id/translatedTextEdit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:editable="false"></org.softcatala.traductor.UnknownColoredWordsEditText>
+                android:layout_weight="1"></org.softcatala.traductor.UnknownColoredWordsEditText>
 
             <ImageButton
                 android:id="@+id/speechButton"
