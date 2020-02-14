@@ -65,7 +65,7 @@ public class InfoDialog {
         htmlString += _context.getString(R.string.SiteProject) + ":\n" + _context.getString(R.string.UrlSite);
         htmlString += "\n\n" + _context.getString(R.string.AboutText);
 
-        final SpannableString msg = new SpannableString((CharSequence) htmlString);
+        final SpannableString msg = new SpannableString(htmlString);
         Linkify.addLinks(msg, Linkify.ALL);
 
         AlertDialog alertDialog = new AlertDialog.Builder(_context).create();

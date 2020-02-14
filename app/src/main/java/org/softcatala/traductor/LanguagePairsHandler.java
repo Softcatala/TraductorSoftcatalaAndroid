@@ -40,14 +40,14 @@ public class LanguagePairsHandler implements AdapterView.OnItemSelectedListener,
 
     public LanguagePairsHandler(TraductorSoftcatalaActivity activity) {
         _activity = activity;
-        _valencia = (CheckBox) _activity.findViewById(R.id.valencia);
+        _valencia = _activity.findViewById(R.id.valencia);
 
         initSpinner();
     }
 
     private void initSpinner() {
 
-        _languagesSpinner = (Spinner) _activity.findViewById(R.id.languagesSpinner);
+        _languagesSpinner = _activity.findViewById(R.id.languagesSpinner);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 _activity, R.array.Languages, android.R.layout.simple_spinner_item);

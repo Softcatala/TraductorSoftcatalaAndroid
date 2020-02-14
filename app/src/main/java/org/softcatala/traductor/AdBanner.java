@@ -61,7 +61,7 @@ public class AdBanner {
     public AdBanner(Activity activity, int layoutId, boolean debug) {
 
         _activity = activity;
-        _layout = (RelativeLayout) _activity.findViewById(layoutId);
+        _layout = _activity.findViewById(layoutId);
         _debug = debug;
     }
 
@@ -97,7 +97,7 @@ public class AdBanner {
     }
 
     private void setupCustomBanner() {
-        _customBanner = (ImageView) _activity.findViewById(R.id.customBanner);
+        _customBanner = _activity.findViewById(R.id.customBanner);
         _customBanner.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent();

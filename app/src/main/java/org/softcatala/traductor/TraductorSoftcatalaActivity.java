@@ -85,11 +85,11 @@ public class TraductorSoftcatalaActivity extends AppCompatActivity implements IT
         _targetTextEditor = findViewById(R.id.translatedTextEdit);
         _targetTextEditor.setTextIsSelectable(true);
         _targetTextEditor.setKeyListener(null);
-        _sourceTextEditor = (EditText) findViewById(R.id.textToTranslateEdit);
+        _sourceTextEditor = findViewById(R.id.textToTranslateEdit);
         _sourceTextEditor.addTextChangedListener(new SourceTextEditorWatcher(this, this, _sourceTextEditor));
 
-        _voiceRecognitionButton = (ImageButton) findViewById(R.id.voiceButton);
-        _speechButton = (ImageButton) findViewById(R.id.speechButton);
+        _voiceRecognitionButton = findViewById(R.id.voiceButton);
+        _speechButton = findViewById(R.id.speechButton);
         _languagePairsHandler = new LanguagePairsHandler(this);
 
         loadAdBanner();
@@ -108,7 +108,7 @@ public class TraductorSoftcatalaActivity extends AppCompatActivity implements IT
     }
 
     private void configureToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        Toolbar toolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -251,7 +251,7 @@ public class TraductorSoftcatalaActivity extends AppCompatActivity implements IT
     private void loadPreferences() {
         _preferences = new Preferences(getBaseContext());
 
-        CheckBox checkbox = (CheckBox) findViewById(R.id.valencia);
+        CheckBox checkbox = findViewById(R.id.valencia);
         checkbox.setChecked(_preferences.isValenciaChecked());
 
         _languagePairsHandler.setLanguage(_preferences.getLanguage(_languagePairsHandler.DefaultLanguagePair));
