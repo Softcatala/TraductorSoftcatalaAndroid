@@ -23,28 +23,50 @@ package org.softcatala.traductor;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
+import java.util.Hashtable;
 
 public class Translator {
 
     public String TranslatedText;
 
     private Handler _messagesHandler;
+    Hashtable<String, String> cachedTranslations = new Hashtable<>();
+    final int CACHE_SIZE = 50;
 
     public Translator(Handler messagesHandler) {
         _messagesHandler = messagesHandler;
     }
 
+    private String getCacheKey(final String languagePair, final String sourceText) {
+        return languagePair + "|" + sourceText;
+    }
+
     public void translate(final Context context, final String languagePair, final String sourceText) {
+
         new Thread(new Runnable() {
             public void run() {
 
-                ServerTranslation serverTranslation = new ServerTranslation(context);
+                String cacheKey = getCacheKey(languagePair, sourceText);
+                String cachedTranslation = cachedTranslations.get(cacheKey);
 
-                TranslatedText = serverTranslation.sendJson(
-                        languagePair,
-                        sourceText
-                );
+                if (cachedTranslation == null) {
+                    ServerTranslation serverTranslation = new ServerTranslation(context);
 
+                    TranslatedText = serverTranslation.sendJson(
+                            languagePair,
+                            sourceText
+                    );
+                    if (sourceText.length() > 0) {
+                        if (cachedTranslations.size() > CACHE_SIZE) {
+                            cachedTranslations.clear();
+                        }
+                        cachedTranslations.put(cacheKey, TranslatedText);
+                    }
+                } else {
+                    TranslatedText = cachedTranslation;
+                    Log.d("softcatala", "Cached translation:" + cachedTranslation);
+                }
                 Message msg = new Message();
                 msg.arg1 = Messages.TranslationReady;
                 _messagesHandler.sendMessage(msg);
