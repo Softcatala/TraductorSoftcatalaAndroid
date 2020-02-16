@@ -59,6 +59,38 @@ public class SourceTextEditorWatcher implements TextWatcher {
     private TimerTask timerTask = null;
     long lastCheck = System.currentTimeMillis();
 
+    private boolean isWordLimit(CharSequence arg0, int start, int count) {
+        boolean wordLimit = false;
+        for (int i = 0; i < count; i++) {
+            char c = arg0.charAt(start + i);
+            if (c == ' ' || c == '.' || c == ',') {
+                Log.d("softcatala", "Word limit found");
+                wordLimit = true;
+                break;
+            }
+        }
+        return wordLimit;
+    }
+
+    private TimerTask getTimerTask() {
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                _activity.runOnUiThread(new Runnable() {
+                    public void run() {
+                        Log.d("softcatala", "Request translation");
+                        _translator.Translate();
+                        synchronized (lock) {
+                            prevTextLen = _sourceTextEditor.getText().toString().length();
+                            lastCheck = System.currentTimeMillis();
+                        }
+                    }
+                });
+            }
+        };
+        return timerTask;
+    }
+
     /*
         Cases are supported:
             - When the user is typing only request translation at word boundaries when we have not
@@ -69,15 +101,7 @@ public class SourceTextEditorWatcher implements TextWatcher {
     @Override
     public void onTextChanged(CharSequence arg0, int start, int before, int count) {
         synchronized (lock) {
-            boolean wordLimit = false;
-            for (int i = 0; i < count; i++) {
-                char c = arg0.charAt(start + i);
-                if (c == ' ' || c == '.' || c == ',') {
-                    Log.d("softcatala", "Word limit found");
-                    wordLimit = true;
-                    break;
-                }
-            }
+            boolean wordLimit = isWordLimit(arg0, start, count);
 
             if (timer != null)
                 timer.cancel();
@@ -86,29 +110,13 @@ public class SourceTextEditorWatcher implements TextWatcher {
                 timerTask.cancel();
 
             timer = new Timer();
-            timerTask = new TimerTask() {
-                @Override
-                public void run() {
-                    _activity.runOnUiThread(new Runnable() {
-                        public void run() {
-                            Log.d("softcatala", "Request translation");
-                            _translator.Translate();
-                            synchronized (lock) {
-                                prevTextLen = _sourceTextEditor.getText().toString().length();
-                                lastCheck = System.currentTimeMillis();
-                            }
-                        }
-                    });
-                }
-            };
-
-            int len = prevTextLen;
+            timerTask = getTimerTask();
             int time;
 
             if (wordLimit && System.currentTimeMillis() - lastCheck > WAIT_BETWEEN_WORDS)
                 time = 0;
             else
-                time = len == 0 ? MIN_WAIT_TIME : MAX_WAIT_TIME;
+                time = prevTextLen == 0 ? MIN_WAIT_TIME : MAX_WAIT_TIME;
 
             Log.d("softcatala", "Request scheduled:" + time);
             timer.schedule(timerTask, time);
