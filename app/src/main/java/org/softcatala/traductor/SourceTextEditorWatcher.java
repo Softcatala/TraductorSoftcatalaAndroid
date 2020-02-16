@@ -113,7 +113,9 @@ public class SourceTextEditorWatcher implements TextWatcher {
             timerTask = getTimerTask();
             int time;
 
-            if (wordLimit && System.currentTimeMillis() - lastCheck > WAIT_BETWEEN_WORDS)
+            if (prevTextLen > 0 && _sourceTextEditor.getText().toString().length() == 0)
+                time = 0;
+            else if (wordLimit && System.currentTimeMillis() - lastCheck > WAIT_BETWEEN_WORDS)
                 time = 0;
             else
                 time = prevTextLen == 0 ? MIN_WAIT_TIME : MAX_WAIT_TIME;
