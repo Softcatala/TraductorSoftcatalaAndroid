@@ -296,6 +296,7 @@ public class TraductorSoftcatalaActivity extends AppCompatActivity implements IT
             _speechButton.setImageResource(R.drawable.ic_volume_up_black_24dp);
         }
         else {
+            _speechButton.setImageResource(R.drawable.ic_volume_off_black_24dp);
             _speech.Speak(text);
             _analytics.SendEvent("Speech", targetLanguage);
         }
@@ -312,7 +313,6 @@ public class TraductorSoftcatalaActivity extends AppCompatActivity implements IT
 
     @Override
     public void Start() {
-        _speechButton.setImageResource(R.drawable.ic_volume_off_black_24dp);
         Log.d("softcatala", "Speech start");
 
     }
