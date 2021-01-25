@@ -33,7 +33,8 @@ import org.json.JSONObject;
 
 public class ServerTranslation {
 
-    private static final String SERVER_URL = "https://www.softcatala.org/apertium/json/translate";
+    private static final String APERTIUM_SERVER_URL = "https://www.softcatala.org/apertium/json/translate";
+    private static final String NMT_SERVER_URL = "https://www.softcatala.org/sc/v2/api/nmt-engcat/translate";
     private static final String ENCODING = "UTF-8";
     private static final String KEY = "NWI0MjQwMzQ2MzYyMzEzNjMyNjQ";
     String _language;
@@ -68,7 +69,13 @@ public class ServerTranslation {
 
     private String BuildURL(final String langCode, final String text) {
         StringBuilder sb = new StringBuilder();
-        sb.append(SERVER_URL);
+
+        if (langCode == "en|ca" || langCode == "en|ca") {
+            sb.append(NMT_SERVER_URL);
+        } else {
+            sb.append(APERTIUM_SERVER_URL);
+        }
+
         sb.append("?");
         sb.append(AddQueryParameter("markUnknown", "yes"));
         sb.append(AddQueryParameter("key", KEY));
