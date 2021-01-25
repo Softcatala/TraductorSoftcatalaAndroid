@@ -33,6 +33,7 @@ public class SpeechRemote implements ISpeech, MediaPlayer.OnPreparedListener, Me
     private OnInitialized _onInitialized;
     private Activity _activity;
     private MediaPlayer _mediaPlayer;
+    private boolean _launchingPlaying;
 
     private static final String ENCODING = "UTF-8";
     private static final String SERVER = "https://www.softcatala.org/veu/speak/";
@@ -41,6 +42,7 @@ public class SpeechRemote implements ISpeech, MediaPlayer.OnPreparedListener, Me
     public SpeechRemote(Activity activity, String language, OnInitialized onInitialized) {
         _activity = activity;
         _onInitialized = onInitialized;
+        _launchingPlaying = false;
         _activity.runOnUiThread(new RunnableWithParam(this, _onInitialized, OnInitialized.EventType.Init));
     }
 
@@ -51,7 +53,7 @@ public class SpeechRemote implements ISpeech, MediaPlayer.OnPreparedListener, Me
 
     @Override
     public boolean IsTalking() {
-        return _mediaPlayer != null && _mediaPlayer.isPlaying();
+        return _mediaPlayer != null &&  (_launchingPlaying || _mediaPlayer.isPlaying());
     }
 
     @Override
@@ -124,6 +126,7 @@ public class SpeechRemote implements ISpeech, MediaPlayer.OnPreparedListener, Me
 
         final SpeechRemote _this = this;
         _mediaPlayer = new MediaPlayer();
+        _launchingPlaying = true;
 
         Thread thread = new Thread(new Runnable() {
             @Override
@@ -140,6 +143,7 @@ public class SpeechRemote implements ISpeech, MediaPlayer.OnPreparedListener, Me
                     _mediaPlayer.prepareAsync();
                     Log.d("softcatala", "Playing prepare completed");
                 } catch (Exception e) {
+                    _launchingPlaying = false;
                     Log.d("softcatala", "Playing error: " + e);
                 }
                 Log.d("softcatala", "Playing exits: ");
@@ -151,12 +155,14 @@ public class SpeechRemote implements ISpeech, MediaPlayer.OnPreparedListener, Me
     @Override
     public void onPrepared(MediaPlayer mediaPlayer) {
         Log.d("softcatala", "Playing started");
+        _launchingPlaying = false;
         mediaPlayer.start();
         _activity.runOnUiThread(new RunnableWithParam(this, _onInitialized, OnInitialized.EventType.Start));
     }
 
     @Override
     public void onCompletion(MediaPlayer mediaPlayer) {
+        _launchingPlaying = false;
         _activity.runOnUiThread(new RunnableWithParam(this, _onInitialized, OnInitialized.EventType.Stop));
     }
 }
