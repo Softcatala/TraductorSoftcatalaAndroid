@@ -70,7 +70,7 @@ public class ServerTranslation {
     private String BuildURL(final String langCode, final String text) {
         StringBuilder sb = new StringBuilder();
 
-        if (langCode == "en|ca" || langCode == "en|ca") {
+        if (langCode == "en|ca" || langCode == "ca|en") {
             sb.append(NMT_SERVER_URL);
         } else {
             sb.append(APERTIUM_SERVER_URL);
