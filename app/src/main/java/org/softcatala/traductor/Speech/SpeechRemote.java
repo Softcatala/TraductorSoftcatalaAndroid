@@ -36,7 +36,7 @@ public class SpeechRemote implements ISpeech, MediaPlayer.OnPreparedListener, Me
     private boolean _launchingPlaying;
 
     private static final String ENCODING = "UTF-8";
-    private static final String SERVER = "https://www.softcatala.org/veu/speak/";
+    private static final String SERVER = "https://api.softcatala.org/tts-service/v1/speak/";
 
 
     public SpeechRemote(Activity activity, String language, OnInitialized onInitialized) {
