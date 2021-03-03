@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "org.softcatala.traductor"
-        minSdkVersion 15
+        minSdkVersion 21
         targetSdkVersion 29
     }
 
@@ -18,10 +18,15 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }
+
+    compileOptions {
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
     implementation 'com.google.android.gms:play-services-ads:18.3.0'
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'com.google.android.gms:play-services-analytics:17.0.0'
+    implementation 'com.google.android.exoplayer:exoplayer:2.12.2'
 }

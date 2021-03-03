@@ -20,19 +20,22 @@
 package org.softcatala.traductor.Speech;
 
 import android.app.Activity;
-import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.util.Log;
+
+import com.google.android.exoplayer2.MediaItem;
+import com.google.android.exoplayer2.Player;
+import com.google.android.exoplayer2.SimpleExoPlayer;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
 
-public class SpeechRemote implements ISpeech, MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener {
+public class SpeechRemote implements ISpeech, Player.EventListener {
 
     private OnInitialized _onInitialized;
     private Activity _activity;
-    private MediaPlayer _mediaPlayer;
+    private SimpleExoPlayer _mediaPlayer;
     private boolean _launchingPlaying;
 
     private static final String ENCODING = "UTF-8";
@@ -124,44 +127,40 @@ public class SpeechRemote implements ISpeech, MediaPlayer.OnPreparedListener, Me
 
     void playAndWait(final String fileName) {
 
-        final SpeechRemote _this = this;
-        _mediaPlayer = new MediaPlayer();
+        _mediaPlayer = new SimpleExoPlayer.Builder(_activity).build();
+        _mediaPlayer.addListener(this);
         _launchingPlaying = true;
 
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
+        _activity.runOnUiThread(
 
-                try {
+            new Runnable() {
+                @Override
+                public void run() {
 
-                    _mediaPlayer.setDataSource(fileName);
-                    Log.d("softcatala", "Playing: " + fileName);
-                    _mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-                    _mediaPlayer.setOnPreparedListener(_this);
-                    _mediaPlayer.setOnCompletionListener(_this);
+                    try {
 
-                    _mediaPlayer.prepareAsync();
-                    Log.d("softcatala", "Playing prepare completed");
-                } catch (Exception e) {
-                    _launchingPlaying = false;
-                    Log.d("softcatala", "Playing error: " + e);
+                        MediaItem mediaItem = MediaItem.fromUri(fileName);
+
+                        _mediaPlayer.setMediaItem(mediaItem);
+                        _mediaPlayer.prepare();
+                        _launchingPlaying = false;
+                        _mediaPlayer.play();
+
+                   } catch (Exception e) {
+                        _launchingPlaying = false;
+                        Log.d("softcatala", "Playing error: " + e);
+                    }
+                    Log.d("softcatala", "Playing exits");
                 }
-                Log.d("softcatala", "Playing exits: ");
-            }
-        });
-        thread.start();
+            });
     }
 
     @Override
-    public void onPrepared(MediaPlayer mediaPlayer) {
-        Log.d("softcatala", "Playing started");
-        _launchingPlaying = false;
-        mediaPlayer.start();
-        _activity.runOnUiThread(new RunnableWithParam(this, _onInitialized, OnInitialized.EventType.Start));
-    }
+    public void onIsPlayingChanged(boolean isPlaying) {
 
-    @Override
-    public void onCompletion(MediaPlayer mediaPlayer) {
+        if (isPlaying)
+            return;
+
         _launchingPlaying = false;
         _activity.runOnUiThread(new RunnableWithParam(this, _onInitialized, OnInitialized.EventType.Stop));
     }

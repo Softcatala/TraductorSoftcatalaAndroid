@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="org.softcatala.traductor"
-      android:versionCode="38"
-      android:versionName="0.92.1"
+      android:versionCode="39"
+      android:versionName="0.92.2"
       android:installLocation="auto">
 
     <uses-permission android:name="android.permission.INTERNET" />
