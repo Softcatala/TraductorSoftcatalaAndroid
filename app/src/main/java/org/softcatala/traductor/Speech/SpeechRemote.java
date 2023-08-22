@@ -20,22 +20,21 @@
 package org.softcatala.traductor.Speech;
 
 import android.app.Activity;
-import android.media.MediaPlayer;
 import android.util.Log;
 
-import com.google.android.exoplayer2.MediaItem;
-import com.google.android.exoplayer2.Player;
-import com.google.android.exoplayer2.SimpleExoPlayer;
+import androidx.media3.common.MediaItem;
+import androidx.media3.common.Player;
+import androidx.media3.exoplayer.ExoPlayer;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.security.MessageDigest;
 
-public class SpeechRemote implements ISpeech, Player.EventListener {
+public class SpeechRemote implements ISpeech, Player.Listener {
 
     private OnInitialized _onInitialized;
     private Activity _activity;
-    private SimpleExoPlayer _mediaPlayer;
+    private ExoPlayer _mediaPlayer;
     private boolean _launchingPlaying;
 
     private static final String ENCODING = "UTF-8";
@@ -127,7 +126,7 @@ public class SpeechRemote implements ISpeech, Player.EventListener {
 
     void playAndWait(final String fileName) {
 
-        _mediaPlayer = new SimpleExoPlayer.Builder(_activity).build();
+        _mediaPlayer = new ExoPlayer.Builder(_activity).build();
         _mediaPlayer.addListener(this);
         _launchingPlaying = true;
 
