@@ -22,6 +22,9 @@ android {
         sourceCompatibility JavaVersion.VERSION_11
     }
     namespace 'org.softcatala.traductor'
+    buildFeatures {
+        buildConfig true
+    }
 }
 
 dependencies {

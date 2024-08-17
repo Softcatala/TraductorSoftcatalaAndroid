@@ -14,6 +14,18 @@
         <item>Catalán ⇒ Occitano/Aranés</item>
         <item>Aragonés ⇒ Catalán</item>
         <item>Catalán ⇒ Aragonés</item>
+        <item>Alemán ⇒ Catalán</item>
+        <item>Catalán ⇒ Alemán</item>
+        <item>Italiano ⇒ Catalán</item>
+        <item>Catalán ⇒ Italiano</item>
+        <item>Neerlandés ⇒ Catalán</item>
+        <item>Catalán ⇒ Neerlandés</item>
+        <item>Japonés ⇒ Catalán</item>
+        <item>Catalán ⇒ Japonés</item>
+        <item>Gallego ⇒ Catalán</item>
+        <item>Catalán ⇒ Gallego</item>
+        <item>Vasco ⇒ Catalán</item>
+        <item>Catalán ⇒ Vasco</item>
     </string-array>
     <string name="ValencianVariant">Utilizar la variante valenciana</string>
     <string name="EditTextHint">Teclea el texto a traducir</string>
