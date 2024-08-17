@@ -64,6 +64,7 @@ public class InfoDialog {
         String htmlString = _context.getString(R.string.AboutVersion) + ": " + info.versionName + " (rev. " +  info.versionCode + ")\n";
         htmlString += _context.getString(R.string.SiteProject) + ":\n" + _context.getString(R.string.UrlSite);
         htmlString += "\n\n" + _context.getString(R.string.AboutText);
+        htmlString += "\n\n" + "https://www.softcatala.org/politica-de-privadesa/";
 
         final SpannableString msg = new SpannableString(htmlString);
         Linkify.addLinks(msg, Linkify.ALL);

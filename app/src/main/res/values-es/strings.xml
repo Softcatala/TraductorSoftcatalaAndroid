@@ -30,5 +30,5 @@
     <string name="Share">Compartir</string>
     <string name="ShareVia">Compartir con</string>
     <string name="SiteProject">Web del proyecto</string>
-    <string name="AboutText">Basado en la tecnologia de Apertium y ScaleMT, diseñados por Grup Transducens del Departament de Llenguatges i Sistemes Informàtics de la Universitat d’Alacant, y desarrollados bajo las licencias libres GPL y AGPL, respectivamente.\n\nSíntesi de la voz en catalán facilitada por el proyecto Festival desarrollado por Centre for Speech Technology Research (CSTR) de la University of Edinburgh. La voz en catalán ha sido desarrollada por el centro TALP de la Universitat Politècnica de Catalunya.</string>
+    <string name="AboutText">El traductor de Softcatalà es un traductor automático entre el catalán i varias lenguas. El servicio utiliza dos tipos de tecnologies diferentes, que podeis elegir en las opciones según el par de idiomas seleccionado: un traductor basado en el proyecto de software libre Apertium, y un traductor neuronal desarrollado por Softcalà.\n\nSíntesi de la voz en catalán facilitada por el proyecto Festival desarrollado por Centre for Speech Technology Research (CSTR) de la University of Edinburgh. La voz en catalán ha sido desarrollada por el centro TALP de la Universitat Politècnica de Catalunya.</string>
 </resources>

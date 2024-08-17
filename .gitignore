@@ -1,4 +1,5 @@
 app/build/
 .gradle/
 local.properties
-
+traductor.keystore
+app/release/
