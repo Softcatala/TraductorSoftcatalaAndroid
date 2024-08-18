@@ -21,15 +21,21 @@
 
 package org.softcatala.traductor;
 
+
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.graphics.Rect;
 import android.net.Uri;
+import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.WindowMetrics;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+
+import androidx.annotation.NonNull;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdSize;
@@ -46,6 +52,7 @@ public class AdBanner {
     private static final String _adUnitId = "ca-app-pub-5137971297629213/4127231332";
     private static final String _legacyAdUnitId = "a14e945e9a0133f";
 
+    private boolean _consent;
     private final boolean _debug;
     private AdView _adView;
     private Activity _activity;
@@ -54,14 +61,15 @@ public class AdBanner {
     private ImageView _customBanner;
 
 
-    public AdBanner(Activity activity, int layoutId) {
-        this(activity, layoutId, false);
+    public AdBanner(Activity activity, int layoutId, boolean consent) {
+        this(activity, layoutId, consent, false);
     }
 
-    public AdBanner(Activity activity, int layoutId, boolean debug) {
+    public AdBanner(Activity activity, int layoutId, boolean consent, boolean debug) {
 
         _activity = activity;
         _layout = _activity.findViewById(layoutId);
+        _consent = consent;
         _debug = debug;
     }
 
@@ -75,7 +83,8 @@ public class AdBanner {
 
         if(_isPlayStoreVersion) {
             _adView = new AdView(_activity);
-            _adView.setAdSize(AdSize.SMART_BANNER);
+
+            _adView.setAdSize(getAdSize());
             _adView.setAdUnitId(_adUnitId);
 
             _customBanner.setVisibility(View.GONE);
@@ -96,6 +105,33 @@ public class AdBanner {
         }
     }
 
+    private AdSize getAdSize() {
+
+
+        float adWidthPixels = _layout.getWidth();
+
+        // If the ad hasn't been laid out, default to the full screen width.
+        if (adWidthPixels == 0f) {
+            WindowMetrics windowMetrics = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+                windowMetrics = this._activity.getWindowManager().getCurrentWindowMetrics();
+                Rect bounds = windowMetrics.getBounds();
+
+                adWidthPixels = bounds.width();
+            } else {
+                DisplayMetrics displayMetrics = new DisplayMetrics();
+                this._activity.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+                adWidthPixels = displayMetrics.widthPixels;
+            }
+
+        }
+
+        float density = this._activity.getResources().getDisplayMetrics().density;
+        int adWidth = (int) (adWidthPixels / density);
+
+        return AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(this._activity, adWidth);
+    }
+
     private void setupCustomBanner() {
         _customBanner = _activity.findViewById(R.id.customBanner);
         _customBanner.setOnClickListener(new View.OnClickListener() {
@@ -111,7 +147,7 @@ public class AdBanner {
 
     // This returns false for other Stores (like F-Droid, etc)
     private boolean IsPlayStoreVersion() {
-        return _fingerPrint.equals(GetSignatureFingerPrint());
+        return _fingerPrint.equals(GetSignatureFingerPrint()) && this._consent;
     }
 
     public String GetSignatureFingerPrint() {

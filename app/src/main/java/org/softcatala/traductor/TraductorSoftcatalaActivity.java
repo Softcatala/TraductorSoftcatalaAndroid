@@ -24,8 +24,10 @@ package org.softcatala.traductor;
 
 import android.graphics.Color;
 import android.os.Build;
+
 import androidx.appcompat.widget.Toolbar;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -42,11 +44,17 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.util.Log;
 
+import com.google.android.ump.ConsentForm;
+import com.google.android.ump.ConsentInformation;
+import com.google.android.ump.ConsentRequestParameters;
+import com.google.android.ump.UserMessagingPlatform;
+
 import org.softcatala.traductor.Speech.ISpeech;
 import org.softcatala.traductor.Speech.OnInitialized;
 import org.softcatala.traductor.Speech.SpeechFactory;
 import org.softcatala.utils.AndroidUtils;
 import org.softcatala.utils.ClipboardHandler;
+
 import java.util.ArrayList;
 
 
@@ -65,6 +73,8 @@ public class TraductorSoftcatalaActivity extends AppCompatActivity implements IT
     private VoiceRecognition _voiceRecognition;
     private ImageButton _voiceRecognitionButton;
     private ImageButton _speechButton;
+
+    private boolean _consent = false;
 
     // Functional helper classes
     public Handler _messagesHandler;
@@ -91,6 +101,35 @@ public class TraductorSoftcatalaActivity extends AppCompatActivity implements IT
         _voiceRecognitionButton = findViewById(R.id.voiceButton);
         _speechButton = findViewById(R.id.speechButton);
         _languagePairsHandler = new LanguagePairsHandler(this);
+        this._consent = true;
+
+        ConsentRequestParameters params = new ConsentRequestParameters
+                .Builder()
+                .setTagForUnderAgeOfConsent(false)
+                .build();
+
+        ConsentInformation consentInformation = UserMessagingPlatform.getConsentInformation(this);
+        consentInformation.requestConsentInfoUpdate(
+                this,
+                params,
+                (ConsentInformation.OnConsentInfoUpdateSuccessListener) () -> {
+                    UserMessagingPlatform.loadAndShowConsentFormIfRequired(
+                            this,
+                            (ConsentForm.OnConsentFormDismissedListener) loadAndShowError -> {
+                                if (loadAndShowError != null) {
+                                    // Consent gathering failed.
+                                    this._consent = false;
+                                } else {
+                                    this._consent = true;
+                                }
+                            }
+                    );
+                },
+                (ConsentInformation.OnConsentInfoUpdateFailureListener) requestConsentError -> {
+                    this._consent = false;
+                }
+        );
+
 
         loadAdBanner();
         loadPreferences();
@@ -244,7 +283,7 @@ public class TraductorSoftcatalaActivity extends AppCompatActivity implements IT
     }
 
     private void loadAdBanner() {
-        AdBanner adBanner = new AdBanner(this, R.id.adLayout);
+        AdBanner adBanner = new AdBanner(this, R.id.adLayout, this._consent);
         adBanner.Setup();
     }
 
@@ -287,15 +326,14 @@ public class TraductorSoftcatalaActivity extends AppCompatActivity implements IT
     }
 
 
-    public void OnSpeech(View v){
+    public void OnSpeech(View v) {
 
         String targetLanguage = _languagePairsHandler.getTargetLanguage();
         String text = _targetTextEditor.getText().toString();
         if (_speech.IsTalking()) {
             _speech.Stop();
             _speechButton.setImageResource(R.drawable.ic_volume_up_black_24dp);
-        }
-        else {
+        } else {
             _speechButton.setImageResource(R.drawable.ic_volume_off_black_24dp);
             _speech.Speak(text);
             _analytics.SendEvent("Speech", targetLanguage);

@@ -14,6 +14,18 @@
         <item>Català ⇒ Occità/Aranès</item>
         <item>Aragonès ⇒ Català</item>
         <item>Català ⇒ Aragonès</item>
+        <item>Alemany ⇒ Catala</item>
+        <item>Català ⇒ Alemany</item>
+        <item>Italià ⇒ Catala</item>
+        <item>Català ⇒ Italia</item>
+        <item>Neerlandès ⇒ Català</item>
+        <item>Català ⇒ Neerlandès</item>
+        <item>Japonès ⇒ Català</item>
+        <item>Català ⇒ Japonès</item>
+        <item>Gallec ⇒ Català</item>
+        <item>Català ⇒ Gallec</item>
+        <item>Basc ⇒ Català</item>
+        <item>Català ⇒ Basc</item>
     </string-array>
     <string name="ValencianVariant">Usa les formes valencianes</string>
     <string name="EditTextHint">Teclegeu el text a traduir</string>
@@ -30,5 +42,5 @@
     <string name="Share">Comparteix</string>
     <string name="ShareVia">Comparteix mitjançant</string>
     <string name="SiteProject">Web del projecte</string>
-    <string name="AboutText">Basat en la tecnologia d’Apertium i ScaleMT, dissenyats pel Grup Transducens del Departament de Llenguatges i Sistemes Informàtics de la Universitat d’Alacant, i desenvolupats sota les llicències lliures GPL i AGPL, respectivament.\n\nSíntesi de la veu en català proveïda pel projecte Festival desenvolupat pel Centre for Speech Technology Research (CSTR) de la University of Edinburgh. La veu en català ha estat desenvolupada pel centre TALP de la Universitat Politècnica de Catalunya.</string>
+    <string name="AboutText">El traductor de Softcatalà és un traductor automàtic entre el català i diverses llengües. El servei usa dos tipus de tecnologies diferents, que podreu triar a les opcions de la part inferior depenent del parell de llengües que seleccioneu: un traductor basat en el projecte de programari lliure Apertium, i un traductor neuronal desenvolupat per Softcatalà.\n\nSíntesi de la veu en català proveïda pel projecte Festival desenvolupat pel Centre for Speech Technology Research (CSTR) de la University of Edinburgh. La veu en català ha estat desenvolupada pel centre TALP de la Universitat Politècnica de Catalunya.</string>
 </resources>

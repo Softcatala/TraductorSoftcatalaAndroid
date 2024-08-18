@@ -29,6 +29,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import org.json.JSONObject;
 
 public class ServerTranslation {
@@ -67,10 +70,20 @@ public class ServerTranslation {
         return sb.toString();
     }
 
+
+    private ArrayList<String> neuralPairs = new ArrayList<>(
+            Arrays.asList(
+                    "en|ca", "ca|en","deu|cat", "cat|deu", "ita|cat", "cat|ita",
+                    "nld|cat", "cat|nld", "fr|ca", "ca|fr", "pt|ca", "ca|pt",
+                    "jpn|cat", "cat|jpn", "glg|cat", "cat|glg", "oci|cat", "cat|oci",
+                    "eus|cat", "cat|eus"
+            )
+    );
+
     private String BuildURL(final String langCode, final String text) {
         StringBuilder sb = new StringBuilder();
 
-        if (langCode == "en|ca" || langCode == "ca|en") {
+        if (neuralPairs.contains(langCode)) {
             sb.append(NMT_SERVER_URL);
         } else {
             sb.append(APERTIUM_SERVER_URL);
